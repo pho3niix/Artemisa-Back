@@ -14,7 +14,7 @@ services:
     environment:
       - NODE_ENV=production
       - NODE_PORT=3000
-      - HOME_PAGE=
+      - HOME_PAGE=http://localhost:3000
     env_file:
       - .env
     networks:
@@ -33,7 +33,7 @@ services:
     environment:
       - NODE_ENV=development
       - NODE_PORT=3001
-      - HOME_PAGE=
+      - HOME_PAGE=http://localhost:3001
     env_file:
       - .env
     networks:
@@ -52,7 +52,7 @@ services:
     environment:
       - NODE_ENV=testing
       - NODE_PORT=3002
-      - HOME_PAGE=
+      - HOME_PAGE=http://localhost:3002
     env_file:
       - .env
     networks:
@@ -71,7 +71,7 @@ services:
     environment:
       - NODE_ENV=preproduction
       - NODE_PORT=3003
-      - HOME_PAGE=
+      - HOME_PAGE=http://localhost:3003
     env_file:
       - .env
     networks:
