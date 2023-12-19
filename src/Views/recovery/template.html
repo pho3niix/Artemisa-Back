@@ -281,14 +281,14 @@
             const self = this;
 
             const payload = {
-              sNewPassword: this.password,
-              sConfirmNewPassword: this.confirmPassword,
-              sTypeUser: params.sTypeUser
+              NewPassword: this.password,
+              ConfirmNewPassword: this.confirmPassword,
+              TypeUser: params.TypeUser
             };
 
             axios
               .patch(
-                `${params.sHost}/api/v1/${params.sLang}/recovery?sToken=${params.sToken}`,
+                `${params.sHost}/api/v1/${params.sLang}/recovery?Token=${params.sToken}`,
                 payload
               )
               .then((response) => {

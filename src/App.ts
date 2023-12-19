@@ -74,36 +74,44 @@ app.get(`${Environment}/password-recovery`, (req: Request, res: Response, next: 
 app.use(express.static(path.join(__dirname, '/Views/recovery')));
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
-    let { sPassword } = req.body;
+    let { Password, NewPassword, ConfirmNewPassword } = req.body;
     let body = { ...req.body };
-    if (sPassword) body.sPassword = "*********";
+    let { Token } = req.query;
+    let queries = { ...req.query };
+
+    if (Password) body.Password = "*********";
+    if (NewPassword) body.NewPassword = "*********";
+    if (ConfirmNewPassword) body.ConfirmNewPassword = "*********";
+    if (ConfirmNewPassword) body.ConfirmNewPassword = "*********";
+    if (Token) queries.Token = "*********";
+    
     console.log({
         body: body,
         params: req.params,
-        query: req.query
+        query: queries
     });
 
     let {
-        tStart,
-        tEnd
+        Start,
+        End
     } = req.query;
 
     // Flag
-    if ((tStart && tEnd)) {
-        let Start = Services.AddDays(new Date(tStart as string), 1);
-        let End = Services.AddDays(new Date(tEnd as string), 1);
+    if ((Start && End)) {
+        let DateStart = Services.AddDays(new Date(Start as string), 1);
+        let DateEnd = Services.AddDays(new Date(End as string), 1);
 
         if (Start.toString() == 'Invalid Date') return next(new MyError(409, ValidationMessages.JoiValidationError.Filters.Start["sp"]))
         if (End.toString() == 'Invalid Date') return next(new MyError(409, ValidationMessages.JoiValidationError.Filters.End["sp"]))
 
-        Start.setHours(0);
-        Start.setMinutes(0);
-        Start.setSeconds(0);
-        End.setHours(23);
-        End.setMinutes(59);
-        End.setSeconds(59);
-        req.query.tStart = Start.toISOString();
-        req.query.tEnd = End.toISOString();
+        DateStart.setHours(0);
+        DateStart.setMinutes(0);
+        DateStart.setSeconds(0);
+        DateEnd.setHours(23);
+        DateEnd.setMinutes(59);
+        DateEnd.setSeconds(59);
+        req.query.Start = DateStart.toISOString();
+        req.query.End = DateEnd.toISOString();
     }
     return next();
 });
