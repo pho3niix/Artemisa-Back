@@ -1,0 +1,120 @@
+#app{
+  height: 100%;
+}
+
+.container-password-recovery {
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  width: 396px;
+  height: 80vh;
+}
+
+.container-flex-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.display-flex-vertical-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-password-recovery {
+  width: 171px;
+  height: 61px;
+}
+
+.image-password-recovery img {
+  width: 100%;
+  height: auto;
+}
+
+@supports (object-fit: cover) {
+  .image-password-recovery img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container-password-recovery {
+    width: 90%;
+  }
+}
+
+.container-password-recovery-form {
+  width: 100%;
+  padding: 25px;
+}
+
+.form-input-password-recovery>>>.v-input__slot {
+  background-color: #f0f0f0;
+  border-radius: 12px;
+}
+
+.form-input-password-recovery {
+  width: 269px;
+}
+
+.button-olvidaste-contrasena {
+  padding: 0px !important;
+  text-transform: capitalize;
+  color: #3fd25f !important;
+  font-family: "mtserr", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: bold;
+}
+
+.button-password-recovery {
+  margin-top: 30px;
+  /* height: 49px !important; */
+  width: 250px;
+  border-radius: 5px;
+  background-color: #292929 !important;
+  font-family: "mtserr", sans-serif;
+  color: #ffffff !important;
+  font-weight: bold;
+  letter-spacing: 0.13px;
+  font-size: 14px;
+}
+
+.powerby {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8%;
+  margin: auto;
+  font-family: "Poppins", sans-serif;
+  color: #c7cfd6;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+  line-height: 17px;
+}
+
+.boldtext {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.welcome-text-password-recovery {
+  color: #000000;
+  font-family: "mtserr", sans-serif;
+  font-size: 24px;
+  letter-spacing: 0;
+  margin-bottom: 40px;
+  margin-top: 50px;
+}
+
+.flex-centered-middle-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
