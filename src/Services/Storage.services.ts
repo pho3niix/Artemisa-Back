@@ -6,8 +6,8 @@ import Crypto from 'crypto';
 import ApiMessages from '../Api/00_Index/Index.messages';
 
 export interface IListImages {
-    sType: string;
-    sUrl: string;
+    Type: string;
+    Url: string;
 }
 
 export interface oImages {
@@ -24,7 +24,7 @@ interface IBaseParams {
 }
 
 export interface IImage {
-    sImageKey: string;
+    ImageKey: string;
 }
 
 interface IUploadParams extends IBaseParams {
@@ -46,63 +46,63 @@ const s3: S3 = new AWS.S3({});
 
 class StorageMethods {
 
-    public GetFormat(mime:string):string{
+    public GetFormat(mime: string): string {
         return mime.split('/')[1]
     }
 
     public async ValidateImages({
-        oFiles,
-        sType,
-        sFormat,
-        sLang
+        Files,
+        Type,
+        Format,
+        Lang
     }: {
-        oFiles: any,
-        sType: 'image' | 'document',
-        sFormat: string
-        sLang: string
+        Files: any,
+        Type: 'image' | 'document',
+        Format: string
+        Lang: string
     }): Promise<any> {
-        const Files = oFiles;
+        const FilesData = Files;
 
-        if (!Files) return Promise.reject(new MyError(404, ApiMessages.UploadImages.fileNotFound[sLang]));
+        if (!FilesData) return Promise.reject(new MyError(404, ApiMessages.UploadImages.fileNotFound[Lang]));
 
-        const Upload: any = sType == 'image' ? Files.oImage : Files.oFile;
+        const Upload: any = Type == 'image' ? Files.oImage : Files.oFile;
 
-        if (!Upload) return Promise.reject(new MyError(409, ApiMessages.UploadImages.fileNameNotFound[sLang]));
+        if (!Upload) return Promise.reject(new MyError(409, ApiMessages.UploadImages.fileNameNotFound[Lang]));
 
-        let Format: string = null;
+        let FormatData: string = null;
 
-        switch (sType) {
+        switch (Type) {
             case 'image':
                 Format = this.CheckImagesFormat({
-                    sType: Upload.mimetype,
-                    sFormat: sFormat as string
+                    Type: Upload.mimetype,
+                    Format: Format as string
                 });
                 break;
             case 'document':
                 Format = this.CheckImagesFormat({
-                    sType: Upload.mimetype,
-                    sFormat: sFormat as string
+                    Type: Upload.mimetype,
+                    Format: Format as string
                 });
                 break;
         }
 
-        if (!Format) return Promise.reject(new MyError(412, Messages.Middleware.invalidFile[sLang]));
+        if (!FormatData) return Promise.reject(new MyError(412, Messages.Middleware.invalidFile[Lang]));
 
         return Upload
     }
 
     public async ValidateArrayOfImages({
         aFiles,
-        sType,
-        sFormat,
-        sLang
+        Type,
+        Format,
+        Lang
     }: {
         aFiles: any,
-        sType: 'image' | 'document',
-        sFormat: string,
-        sLang: 'sp' | 'en'
+        Type: 'image' | 'document',
+        Format: string,
+        Lang: 'sp' | 'en'
     }) {
-        const Files = sType == 'image' ? aFiles.oImage : aFiles.oFile;
+        const Files = Type == 'image' ? aFiles.oImage : aFiles.oFile;
 
         const Upload: { file: any, format: boolean }[] = Files.map((e: any) => {
             let Params = { file: e, format: true }
@@ -110,66 +110,66 @@ class StorageMethods {
             return Params;
         });
 
-        if (Upload.map(e => e.format).includes(false)) return Promise.reject(new MyError(409, ApiMessages.UploadImages.fileNameNotFound[sLang]));
+        if (Upload.map(e => e.format).includes(false)) return Promise.reject(new MyError(409, ApiMessages.UploadImages.fileNameNotFound[Lang]));
 
-        const Format = Upload.map(e => {
+        const FormatData = Upload.map(e => {
             let Params = e
-            switch (sType) {
+            switch (Type) {
                 case 'image':
                     Params.format = typeof this.CheckImagesFormat({
-                        sType: e.file.mimetype,
-                        sFormat: sFormat as string
+                        Type: e.file.mimetype,
+                        Format: Format as string
                     }) == 'string' ? true : false
                     break;
                 case 'document':
                     Params.format = typeof this.CheckDocumentFormat({
-                        sType: e.file.mimetype,
-                        sFormat: sFormat as string
+                        Type: e.file.mimetype,
+                        Format: Format as string
                     }) == 'string' ? true : false
                     break;
             }
             return Params;
         });
 
-        if (Format.map(e => e.format).includes(false)) return Promise.reject(new MyError(412, Messages.Middleware.invalidFile[sLang]));
+        if (FormatData.map(e => e.format).includes(false)) return Promise.reject(new MyError(412, Messages.Middleware.invalidFile[Lang]));
 
         return Format;
     }
 
-    public CheckDocumentFormat({ sType, sFormat }: { sType?: string; sFormat: string }): string {
+    public CheckDocumentFormat({ Type, Format }: { Type?: string; Format: string }): string {
         let Response: string = null;
-        if (sType === 'application/pdf') return 'pdf';
-        if (sType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') return 'docx';
-        if (sType === 'application/octet-stream') return this.CheckDocumentFormat({ sFormat });
-        if (sType === 'application/msword') return 'doc';
+        if (Type === 'application/pdf') return 'pdf';
+        if (Type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') return 'docx';
+        if (Type === 'application/octet-stream') return this.CheckDocumentFormat({ Format });
+        if (Type === 'application/msword') return 'doc';
         return Response;
     }
 
-    public CheckImagesFormat({ sType, sFormat }: { sType?: string; sFormat: string }): string {
+    public CheckImagesFormat({ Type, Format }: { Type?: string; Format: string }): string {
         let Response: string = null;
-        if (sType === 'image/jpeg') return 'jpeg';
-        if (sType === 'image/png') return 'png';
-        if (sType === 'application/octet-stream') return this.CheckImagesFormat({ sFormat });
-        if (sType === 'image/tiff') return 'tiff';
+        if (Type === 'image/jpeg') return 'jpeg';
+        if (Type === 'image/png') return 'png';
+        if (Type === 'application/octet-stream') return this.CheckImagesFormat({ Format });
+        if (Type === 'image/tiff') return 'tiff';
         return Response;
     }
 
     public UploadFile({
-        aData,
-        sPath,
+        Data,
+        Path,
         sMime,
-        sFormat
+        Format
     }): Promise<string> {
         return new Promise((resolve, reject) => {
-            const File: string = this.CheckDocumentFormat({ sType: sMime, sFormat });
+            const File: string = this.CheckDocumentFormat({ Type: sMime, Format });
 
-            const Key: string = `${sPath}/${Crypto.pseudoRandomBytes(16).toString('hex')}.${File}`;
+            const Key: string = `${Path}/${Crypto.pseudoRandomBytes(16).toString('hex')}.${File}`;
 
             const Params: IUploadParams = {
                 Bucket: process.env.AWS_BUCKET_FILES,
                 Key,
-                Body: aData,
-                ContentType: sFormat != null ? sFormat : sMime
+                Body: Data,
+                ContentType: Format != null ? Format : sMime
             };
 
             s3.upload(Params, (err: Error, resp: any) => {
@@ -180,10 +180,10 @@ class StorageMethods {
         })
     }
 
-    public DeleteFile({ sImageKey }: IImage): void {
+    public DeleteFile({ ImageKey }: IImage): void {
         const Params: IBaseParams = {
             Bucket: process.env.AWS_BUCKET_FILES,
-            Key: sImageKey
+            Key: ImageKey
         };
         s3.deleteObject(Params, (err: Error, res: any) => {
             if (err) console.log(err);
@@ -191,10 +191,10 @@ class StorageMethods {
         })
     }
 
-    public DeleteImage({ sImageKey }: IImage): void {
+    public DeleteImage({ ImageKey }: IImage): void {
         const Params: IBaseParams = {
             Bucket: process.env.AWS_BUCKET_IMAGES,
-            Key: sImageKey
+            Key: ImageKey
         };
         s3.deleteObject(Params, (err: Error, res: any) => {
             if (err) console.log(err);
@@ -202,12 +202,12 @@ class StorageMethods {
         })
     }
 
-    public GetFiles({ sImageKey }: IImage): Promise<string> {
+    public GetFiles({ ImageKey }: IImage): Promise<string> {
         return new Promise((resolve, reject) => {
-            if (sImageKey) {
+            if (ImageKey) {
                 const Params: IGetParams = {
                     Bucket: process.env.AWS_BUCKET_FILES,
-                    Key: sImageKey,
+                    Key: ImageKey,
                     Expires: 219000000
                 }
                 s3.getSignedUrl('getObject', Params, (err: Error, url: string) => {
@@ -220,9 +220,9 @@ class StorageMethods {
         })
     }
 
-    private async UploadImage(sKey: string, aData: any, oSize: { sType: string, iWidth: number }): Promise<AWS.S3.ManagedUpload.SendData> {
+    private async UploadImage(Key: string, Data: any, oSize: { Type: string, iWidth: number }): Promise<AWS.S3.ManagedUpload.SendData> {
         return new Promise((resolve, reject) => {
-            Sharp(aData)
+            Sharp(Data)
                 .resize({
                     width: oSize.iWidth
                 })
@@ -232,7 +232,7 @@ class StorageMethods {
                 .then(data => {
                     const Params: AWS.S3.PutObjectRequest = {
                         Bucket: process.env.AWS_BUCKET_IMAGES,
-                        Key: `${sKey}-${oSize.sType}.jpg`,
+                        Key: `${Key}-${oSize.Type}.jpg`,
                         Body: data,
                         ContentType: 'image/jpeg'
                     };
@@ -241,43 +241,43 @@ class StorageMethods {
                         resolve(Data)
                     })
                 })
-                .catch(e => console.log('aquí falla',e));
+                .catch(e => console.log('aquí falla', e));
         })
     }
 
     public async UploadManyImages({
-        aData,
-        sPath
-    }: { aData: any, sPath: string }): Promise<string> {
-        const Sizes: { sType: string, iWidth: number }[] = [
-            { sType: 'xs', iWidth: 90 },
-            { sType: 'sm', iWidth: 150 },
-            { sType: 'md', iWidth: 300 },
-            { sType: 'lg', iWidth: 612 },
-            { sType: 'xlg', iWidth: 1080 },
+        Data,
+        Path
+    }: { Data: any, Path: string }): Promise<string> {
+        const Sizes: { Type: string, iWidth: number }[] = [
+            { Type: 'xs', iWidth: 90 },
+            { Type: 'sm', iWidth: 150 },
+            { Type: 'md', iWidth: 300 },
+            { Type: 'lg', iWidth: 612 },
+            { Type: 'xlg', iWidth: 1080 },
         ];
 
         return await new Promise(async (resolve, reject) => {
-            const Key = `${sPath}/${Crypto.pseudoRandomBytes(16).toString('hex')}`;
+            const Key = `${Path}/${Crypto.pseudoRandomBytes(16).toString('hex')}`;
             await Promise.all(Sizes.map(async i => {
-                await this.UploadImage(Key, aData, i);
+                await this.UploadImage(Key, Data, i);
             }));
             resolve(Key);
         });
     }
 
-    public async GetManyImages(sPath: string, aSizes: string[]): Promise<oImages> {
+    public async GetManyImages(Path: string, aSizes: string[]): Promise<oImages> {
         let build = {};
-        for (let i of await this.GetImagesSizes(sPath, aSizes)) {
-            build[i.sType] = i.sUrl;
+        for (let i of await this.GetImagesSizes(Path, aSizes)) {
+            build[i.Type] = i.Url;
         }
-        return sPath != null ? build : {};
+        return Path != null ? build : {};
     }
 
-    public async GetImages(sImageKey: string): Promise<string> {
+    public async GetImages(ImageKey: string): Promise<string> {
         return new Promise(async (resolve, reject) => {
-            if (sImageKey) {
-                s3.getSignedUrl('getObject', { Bucket: process.env.AWS_BUCKET_IMAGES, Key: sImageKey, Expires: 219000000 }, (err: Error, url: string) => {
+            if (ImageKey) {
+                s3.getSignedUrl('getObject', { Bucket: process.env.AWS_BUCKET_IMAGES, Key: ImageKey, Expires: 219000000 }, (err: Error, url: string) => {
                     if (err) return reject(new MyError(422, err.message));
                     return resolve(url);
                 })
@@ -287,13 +287,13 @@ class StorageMethods {
         })
     }
 
-    public async GetImagesSizes(sPath: string, aSizes: string[]): Promise<IListImages[]> {
-        if (sPath) {
+    public async GetImagesSizes(Path: string, aSizes: string[]): Promise<IListImages[]> {
+        if (Path) {
             const Images: IListImages[] = await Promise.all(aSizes.map(async e => {
                 return {
-                    sType: e,
-                    sUrl: await this.GetImages(`${sPath}-${e}.jpg`),
-                    // sKey: `${sImageKey}-${e}`
+                    Type: e,
+                    Url: await this.GetImages(`${Path}-${e}.jpg`),
+                    // Key: `${ImageKey}-${e}`
                 }
             }))
             return Images;

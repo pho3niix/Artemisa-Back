@@ -23,11 +23,17 @@ import RecoveryToken from "../Models/RecoveryToken.model";
 import Sessions from "../Models/Sessions.model";
 import Users from "../Models/Users.model";
 
-function Migrations() {
-    return (async () => {
-        await Db.sync({ alter: true });
+/**@RecoveryToken */
+RecoveryToken.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId' });
 
-        await Db.query(`CREATE EXTENSION IF NOT EXISTS unaccent`);
+/**@Sessions */
+Sessions.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId', as: 'Users' });
+
+function Migrations() {
+	return (async () => {
+		await Db.sync({ alter: true });
+
+		await Db.query(`CREATE EXTENSION IF NOT EXISTS unaccent`);
 
 		console.log('Users', Users == Db.models.Users);
 		console.log('Sessions', Sessions == Db.models.Sessions);
@@ -53,10 +59,10 @@ function Migrations() {
 		console.log('ParentFiles', ParentFiles == Db.models.ParentFiles);
 		console.log('ChildrenFiles', ChildrenFiles == Db.models.ChildrenFiles);
 
-        console.log('Migration completed.');
+		console.log('Migration completed.');
 
-        return process.exit(0)
-    })();
+		return process.exit(0)
+	})();
 }
 
 export default Migrations();

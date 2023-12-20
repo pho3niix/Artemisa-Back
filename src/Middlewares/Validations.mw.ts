@@ -234,19 +234,19 @@ export function CorrectEndDate(error: string): typeof Joi {
 }
 
 export const Filters = {
-    sSearch: Joi.string().lowercase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").allow("").allow(null).error(new Error("Filters sSearch")),
-    iPageNumber: Joi.number()
+    Search: Joi.string().lowercase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").allow("").allow(null).error(new Error("Filters sSearch")),
+    PageNumber: Joi.number()
         .min(1)
         .allow()
-        .error(new Error("Filters iPageNumber")),
-    iItemsPerPage: Joi.number()
+        .error(new Error("Filters PageNumber")),
+    ItemsPerPage: Joi.number()
         .allow("").allow(null)
         .min(1)
-        .error(new Error("Filters iItemsPerPage")),
+        .error(new Error("Filters ItemsPerPage")),
 };
 
 export const LanguageParams: object = {
-    sLang: Joi.string().required().error(new Error("sLang Translations"))
+    Lang: Joi.string().required().error(new Error("Translations Lang"))
 }
 
 export function JoiObjectKeys(oKeys: any) {

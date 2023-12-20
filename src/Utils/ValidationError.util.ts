@@ -69,18 +69,6 @@ export default {
                 sp: "Por favor, ingrese un valor númerico para la longitud del arreglo de imagenes.",
                 en: "Please, enter a numeric value for array of images length"
             },
-            Customer: {
-                sp: "Por favor, ingrese un valor booleano.",
-                en: "Please, enter a boolean value."
-            },
-            VendorEnterpriseId: {
-                sp: "Por favor, ingresa un id de empresa proveedora correcta.",
-                en: "Please, enter a correct vendor enterprise id."
-            },
-            Verified: {
-                sp: "Por favor, ingresa un valor booleano para el filtro de status de usuario.",
-                en: "Please, input a boolean value for status user filter."
-            },
             Filter: {
                 sp: "Por favor, ingresa un valor númerico para usar este filtro.",
                 en: "Please, input a numeric value for use this filter."
@@ -89,10 +77,6 @@ export default {
                 sp: "Por favor ingresa un valor entre 'asc' o 'desc' para ordenar los datos de forma correcta.",
                 en: "Please, input a value between 'asc' or 'desc' to sort the data correctly."
             },
-            TransactionType: {
-                sp: "Por favor ingresa un valor entre 'in' o 'out' para ordenar los datos de forma correcta.",
-                en: "Please, input a value between 'in' or 'out' to sort the data correctly."
-            },
             Start: {
                 sp: "La fecha de inicio ingresada no es válida, asegúrese de usar un formato YYYY-MM-DD.",
                 en: "Entered start date is invalid, make sure to use a YYYY-MM-DD format."
@@ -100,10 +84,6 @@ export default {
             End: {
                 sp: "La fecha final ingresada no es válida, asegurese de que sea mayor a la inicial y que cumpla con el formato YYYY-MM-DD.",
                 en: "End date entered is not valid, make sure it is greater than the initial one and that it complies with the YYYY-MM-DD format."
-            },
-            StatusId: {
-                sp: "Por favor, ingresa un identificador para un estatus valido.",
-                en: "Please, input a correct purchase order status id."
             }
         },
         RecoveryPassword: {
@@ -118,10 +98,6 @@ export default {
             ConfirmNewPassword: {
                 sp: "Por favor, ingrese una contraseña con mas de 6 y menos de 13 caracteres.",
                 en: "Please enter a password with more than 6 and less than 13 characters."
-            },
-            Lang: {
-                sp: "Por favor, ingresa un código de lenguage correcto.",
-                en: "Please, enter a correct language code."
             },
             UserType: {
                 sp: "Por favor, ingresa un tipo de usuario correcto.",
@@ -157,10 +133,6 @@ export default {
             UserId: {
                 sp: "Por favor, ingresa un id de usuario correcto.",
                 en: "Please, enter a valid user id."
-            },
-            Lang: {
-                sp: "Por favor, ingresa un código lenguage correcto.",
-                en: "Please, enter a valid language code."
             },
             Password: {
                 sp: "Por favor, ingrese una contraseña correcta. Debe tener como mínimo 6 caracteres.",

@@ -27,10 +27,22 @@ export default () => async (err: IErrHandler, req: Request, res: Response, next:
     );
     if (err.name === "CustomError") {
         console.log(err);
-        let { sPassword } = req.body;
+        let {
+            Password,
+            NewPassword,
+            ConfirmNewPassword,
+            ConfirmPassword
+        } = req.body;
+        let { Token } = req.query;
         let body = { ...req.body };
+        let queries = { ...req.query };
 
-        if (sPassword) body.sPassword = "*********";
+        if (Password) body.Password = "*********";
+        if (NewPassword) body.NewPassword = "*********";
+        if (ConfirmNewPassword) body.ConfirmNewPassword = "*********";
+        if (ConfirmPassword) body.ConfirmPassword = "*********";
+        if (Token) queries.Token = "*********";
+
         console.log({
             body: body,
             params: req.params,

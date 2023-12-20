@@ -3,14 +3,18 @@ import cryptojs from 'crypto-js';
 import Bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
-import { NextFunction } from 'express';
 import MyError from '../Middlewares/Error.mw';
 import Messages from '../Api/00_Index/Index.messages';
 import { randomUUID } from 'crypto';
+import cron from 'node-cron';
 
 export interface IPage<M> {
     results: M[],
     total: number
+}
+
+export interface ILanguages {
+    Lang: 'sp' | 'en';
 }
 
 export interface IEnvironment {
@@ -18,27 +22,27 @@ export interface IEnvironment {
 }
 
 export interface ISortFilter {
-    sSort: 'asc' | 'desc';
+    Sort: 'asc' | 'desc';
 }
 
 export interface IPayload {
-    sUserId: string;
-    sSessionId: string;
+    UserId: string;
+    SessionId: string;
 };
 
 export interface IFilters {
-    iPageNumber?: number;
-    iItemsPerPage?: number;
-    sSearch?: string;
-    tStart?: string;
-    tEnd?: string;
+    PageNumber?: number;
+    ItemsPerPage?: number;
+    Search?: string;
+    Start?: string;
+    End?: string;
 }
 
 
 export interface IHashData {
-    sUserId: string;
-    sSessionId: string;
-    tExpiration?: Date;
+    UserId: string;
+    SessionId: string;
+    Expiration?: Date;
 }
 
 export interface ICustomPage<X> {
@@ -205,10 +209,10 @@ class Methods {
     }
 
     CreateToken(payload: IPayload): string {
-        const { sUserId, sSessionId } = payload;
+        const { UserId, SessionId } = payload;
         const NewPayload: IPayload = {
-            sUserId: sUserId,
-            sSessionId: sSessionId,
+            UserId: UserId,
+            SessionId: SessionId,
         }
         return jwt.sign({
             hash: this.EncryptObject(NewPayload)
@@ -217,8 +221,8 @@ class Methods {
         })
     };
 
-    CreateRandomToken(iBytes: number): string {
-        return crypto.randomBytes(iBytes).toString('hex');
+    CreateRandomToken(Bytes: number): string {
+        return crypto.randomBytes(Bytes).toString('hex');
     }
 
     GetTime(tDate: Date): number {
@@ -264,27 +268,27 @@ class Methods {
 
     async ValidateLists({
         List,
-        iPageNumber,
-        iItemsPerPage,
-        sLang
+        PageNumber,
+        ItemsPerPage,
+        Lang
     }: {
         List: IPage<any>;
-        iPageNumber: number
-        iItemsPerPage: number,
-        sLang: string
+        PageNumber: number
+        ItemsPerPage: number,
+        Lang: string
     }): Promise<{
         List: any
         Total: number
         CurrentPage: number
         NumPages: number
     }> {
-        if (iPageNumber && (isNaN(Number(iPageNumber)) || Number(iPageNumber) <= 0)) return Promise.reject(new MyError(404, Messages.Pagination.invalidNumber[sLang]));
+        if (PageNumber && (isNaN(Number(PageNumber)) || Number(PageNumber) <= 0)) return Promise.reject(new MyError(404, Messages.Pagination.invalidNumber[Lang]));
 
         const Total = List.total;
-        const CurrentPage: number = iPageNumber && iItemsPerPage ? Number(iPageNumber) : 1;
-        const NumPages = Total > 1 ? Math.ceil(Number(Total) / Number(iItemsPerPage)) : 1;
+        const CurrentPage: number = PageNumber && ItemsPerPage ? Number(PageNumber) : 1;
+        const NumPages = Total > 1 ? Math.ceil(Number(Total) / Number(ItemsPerPage)) : 1;
 
-        if (Number(iPageNumber) > Number(NumPages)) return Promise.reject(new MyError(400, Messages.Pagination.maximumNumber[sLang]));
+        if (Number(PageNumber) > Number(NumPages)) return Promise.reject(new MyError(400, Messages.Pagination.maximumNumber[Lang]));
 
         return {
             List: List.results,
@@ -299,11 +303,27 @@ class Methods {
     }
 
     public GetPercentage({
-        dCurrentPrice,
-        dOriginalPrice
-    }: { dOriginalPrice: number, dCurrentPrice: number }): number {
+        CurrentPrice,
+        OriginalPrice
+    }: { OriginalPrice: number, CurrentPrice: number }): number {
         let TotalPercentage: number = 100;
-        return 100 - parseFloat(((dCurrentPrice * TotalPercentage) / dOriginalPrice).toFixed(2))
+        return 100 - parseFloat(((CurrentPrice * TotalPercentage) / OriginalPrice).toFixed(2))
+    }
+
+    public ScheduleTask({
+        Seconds,
+        Minutes,
+        Hours
+    }: {
+        Seconds: string;
+        Minutes: string;
+        Hours: string;
+    }, done: Function): void {
+        const Task = cron.schedule(`${Seconds} ${Minutes} ${Hours} * * *`, async () => {
+            done(null)
+            console.log('Token deleted.');
+            Task.stop();
+        });
     }
 }
 

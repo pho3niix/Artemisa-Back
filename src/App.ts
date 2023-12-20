@@ -74,7 +74,7 @@ app.get(`${Environment}/password-recovery`, (req: Request, res: Response, next: 
 app.use(express.static(path.join(__dirname, '/Views/recovery')));
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
-    let { Password, NewPassword, ConfirmNewPassword } = req.body;
+    let { Password, NewPassword, ConfirmNewPassword, ConfirmPassword } = req.body;
     let body = { ...req.body };
     let { Token } = req.query;
     let queries = { ...req.query };
@@ -82,7 +82,7 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
     if (Password) body.Password = "*********";
     if (NewPassword) body.NewPassword = "*********";
     if (ConfirmNewPassword) body.ConfirmNewPassword = "*********";
-    if (ConfirmNewPassword) body.ConfirmNewPassword = "*********";
+    if (ConfirmPassword) body.ConfirmPassword = "*********";
     if (Token) queries.Token = "*********";
     
     console.log({

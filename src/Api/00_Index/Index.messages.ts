@@ -140,7 +140,7 @@ export default {
             en: "User displayed successfully."
         },
         created: {
-            sp: "Registro exitoso, por favor revisa la bandeja de entrada del correo electrónico registrado.",
+            sp: "Registro exitoso, por favor revisa tu bandeja de entrada para confirmar tu registro.",
             en: "User displayed successfully."
         },
         profilePicture: {

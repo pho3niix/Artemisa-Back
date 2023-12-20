@@ -5,14 +5,14 @@ import { SES, config } from 'aws-sdk';
 import handlebars from 'handlebars';
 
 interface IMailTypes {
-    sType: 'welcome' | 'recovery' | 'password';
+    Type: 'welcome' | 'recovery' | 'password';
 }
 
 interface IMail {
-    aEmails: any[],
-    oData: any,
-    sType: IMailTypes['sType'],
-    sSubject: string
+    Emails: any[],
+    Data: any,
+    Type: IMailTypes['Type'],
+    Subject: string
 }
 
 interface ISendEmail {
@@ -20,20 +20,20 @@ interface ISendEmail {
         event: 'SendEmail',
         listener: (
             arg: {
-                aEmails: IMail['aEmails'],
-                oData: IMail['oData'],
-                sType: IMail['sType'],
-                sSubject: IMail['sSubject']
+                Emails: IMail['Emails'],
+                Data: IMail['Data'],
+                Type: IMail['Type'],
+                Subject: IMail['Subject']
             }
         ) => Promise<void>
     ): this;
     emit(
         event: 'SendEmail',
         arg: {
-            aEmails: IMail['aEmails'],
-            oData: IMail['oData'],
-            sType: IMail['sType'],
-            sSubject: IMail['sSubject']
+            Emails: IMail['Emails'],
+            Data: IMail['Data'],
+            Type: IMail['Type'],
+            Subject: IMail['Subject']
         }
     ): boolean;
 }
@@ -50,30 +50,30 @@ const mail = new SES();
 
 export default MailEvent;
 
-MailEvent.on('SendEmail', async function ({ aEmails, oData, sType, sSubject}: IMail) {
-    const ReadFile = (Template: IMail['sType']): string => Fs.readFileSync(Path.join(__dirname, Template == 'recovery' ? `../Views/${Template}/template.html` : `../Views/${Template}.html`), 'utf-8');
+MailEvent.on('SendEmail', async function ({ Emails, Data, Type, Subject }: IMail) {
+    const ReadFile = (Template: IMail['Type']): string => Fs.readFileSync(Path.join(__dirname, Template == 'recovery' ? `../Views/${Template}/template.html` : `../Views/${Template}.html`), 'utf-8');
 
-    let Template = handlebars.compile(ReadFile(sType));
+    let Template = handlebars.compile(ReadFile(Type));
 
-    const Data = Template(oData);
+    const DataBody = Template(Data);
 
     try {
         await mail.sendEmail({
             Destination: {
-                ToAddresses: aEmails
+                ToAddresses: Emails
             },
             Message: {
                 Body: {
                     Html: {
-                        Data
+                        Data: DataBody
                     }
                 },
                 Subject: {
-                    Data: `CRVG ${sSubject}`,
+                    Data: `Artemisa ${Subject}`,
                     Charset: 'UTF-8'
                 }
             },
-            Source: `CRVG <${process.env.EMAIL_SOURCE}>`
+            Source: `Artemisa <${process.env.EMAIL_SOURCE}>`
         }).promise();
         console.log('email sent');
     } catch (error) {
@@ -81,30 +81,30 @@ MailEvent.on('SendEmail', async function ({ aEmails, oData, sType, sSubject}: IM
     }
 });
 
-MailEvent.on('SendRawEmail', async function ({ aEmails, oData }: { aEmails: string[], oData: { sSubject?: string, sFullName?: string, sUrl?: string } }): Promise<void> {
+MailEvent.on('SendRawEmail', async function ({ Emails, Data }: { Emails: string[], Data: { Subject?: string, FullName?: string, sUrl?: string } }): Promise<void> {
 
     try {
         await mail.sendEmail({
             Destination: {
-                ToAddresses: aEmails
+                ToAddresses: Emails
             },
             Message: {
                 Body: {
                     Html: {
                         Data: `
-                            <h3>Bienvenido a CRVG</h3>
+                            <h3>Bienvenido a Artemisa</h3>
                             <br>
                             <br>
-                            <p>Por favor, entra al siguiente enlace para actualizar tu contraseña: ${oData.sUrl}</p>
+                            <p>Por favor, entra al siguiente enlace para actualizar tu contraseña: ${Data.sUrl}</p>
                         `
                     }
                 },
                 Subject: {
-                    Data: `CRVG ${oData.sSubject}`,
+                    Data: `Artemisa ${Data.Subject}`,
                     Charset: 'UTF-8'
                 }
             },
-            Source: `CRVG <${process.env.EMAIL_SOURCE}>`
+            Source: `Artemisa <${process.env.EMAIL_SOURCE}>`
         }).promise();
         console.log('email sent');
     } catch (error) {

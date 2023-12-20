@@ -1,10 +1,14 @@
 import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from 'sequelize';
 import Database from '../Config/Db.config';
 
+/**@Associations */
+import RecoveryToken from './RecoveryToken.model';
+import Sessions from './Sessions.model';
+
 export interface IUsers {
     UserId: string;
     Name: string;
-    Lastname: string;
+    LastName: string;
     Email: string;
     Password: string;
     ProfilePicture: string;
@@ -19,7 +23,7 @@ export interface IUsers {
 class Users extends Model<InferAttributes<Users>, InferCreationAttributes<Users>>{
     declare UserId: string;
     declare Name: string;
-    declare Lastname: string;
+    declare LastName: string;
     declare Email: string;
     declare Password: string;
     declare ProfilePicture: string;
@@ -43,7 +47,7 @@ Users.init(
             type: DataTypes.STRING,
             allowNull: false
         },
-        Lastname: {
+        LastName: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -82,7 +86,7 @@ Users.init(
         FullName: {
             type: DataTypes.VIRTUAL,
             get() {
-                return `${this.Name} ${this.Lastname}`
+                return `${this.Name} ${this.LastName}`
             },
         }
     },
@@ -99,5 +103,8 @@ Users.init(
         sequelize: Database, // passing the `sequelize` instance is required
     },
 );
+
+Users.hasMany(RecoveryToken, { sourceKey: 'UserId', foreignKey: 'UserId' });
+Users.hasMany(Sessions, { sourceKey: 'UserId', foreignKey: 'UserId' })
 
 export default Users;
