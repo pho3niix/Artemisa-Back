@@ -1,15 +1,15 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IReceptiontype {
+export interface IReceptionType {
     ReceptionTypeId: string;
 }
 
-class Receptiontype extends Model<InferAttributes<Receptiontype>, InferCreationAttributes<Receptiontype>>{
+class ReceptionType extends Model<InferAttributes<ReceptionType>, InferCreationAttributes<ReceptionType>>{
     declare ReceptionTypeId: string;
 };
 
-Receptiontype.init(
+ReceptionType.init(
     {
         ReceptionTypeId:{
             type: DataTypes.UUID,
@@ -19,7 +19,7 @@ Receptiontype.init(
         }
     },
     {
-        tableName: 'Receptiontype',
+        tableName: 'ReceptionType',
         indexes: [
             {
                 unique: true,
@@ -32,4 +32,4 @@ Receptiontype.init(
     },
 );
 
-export default Receptiontype;
+export default ReceptionType;

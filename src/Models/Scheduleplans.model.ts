@@ -1,15 +1,15 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IScheduleplans {
+export interface ISchedulePlans {
     SchedulePlanId: string;
 }
 
-class Scheduleplans extends Model<InferAttributes<Scheduleplans>, InferCreationAttributes<Scheduleplans>>{
+class SchedulePlans extends Model<InferAttributes<SchedulePlans>, InferCreationAttributes<SchedulePlans>>{
     declare SchedulePlanId: string;
 };
 
-Scheduleplans.init(
+SchedulePlans.init(
     {
         SchedulePlanId:{
             type: DataTypes.UUID,
@@ -19,7 +19,7 @@ Scheduleplans.init(
         }
     },
     {
-        tableName: 'Scheduleplans',
+        tableName: 'SchedulePlans',
         indexes: [
             {
                 unique: true,
@@ -32,4 +32,4 @@ Scheduleplans.init(
     },
 );
 
-export default Scheduleplans;
+export default SchedulePlans;

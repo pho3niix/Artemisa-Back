@@ -1,15 +1,15 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface ITeacherfiles {
+export interface ITeacherFiles {
     TeacherFileId: string;
 }
 
-class Teacherfiles extends Model<InferAttributes<Teacherfiles>, InferCreationAttributes<Teacherfiles>>{
+class TeacherFiles extends Model<InferAttributes<TeacherFiles>, InferCreationAttributes<TeacherFiles>>{
     declare TeacherFileId: string;
 };
 
-Teacherfiles.init(
+TeacherFiles.init(
     {
         TeacherFileId:{
             type: DataTypes.UUID,
@@ -19,7 +19,7 @@ Teacherfiles.init(
         }
     },
     {
-        tableName: 'Teacherfiles',
+        tableName: 'TeacherFiles',
         indexes: [
             {
                 unique: true,
@@ -32,4 +32,4 @@ Teacherfiles.init(
     },
 );
 
-export default Teacherfiles;
+export default TeacherFiles;

@@ -2,16 +2,16 @@ import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} 
 import Database from '../Config/Db.config';
 
 export interface IBranches {
-    InstitutionId: string;
+    BranchId: string;
 }
 
 class Branches extends Model<InferAttributes<Branches>, InferCreationAttributes<Branches>>{
-    declare InstitutionId: string;
+    declare BranchId: string;
 };
 
 Branches.init(
     {
-        InstitutionId:{
+        BranchId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -23,7 +23,7 @@ Branches.init(
         indexes: [
             {
                 unique: true,
-                fields: ['InstitutionId']
+                fields: ['BranchId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt

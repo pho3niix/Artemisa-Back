@@ -1,17 +1,17 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IParentsfiles {
-    ParentFileId: string;
+export interface IBranchesFiles {
+    BranchFileId: string;
 }
 
-class Parentsfiles extends Model<InferAttributes<Parentsfiles>, InferCreationAttributes<Parentsfiles>>{
-    declare ParentFileId: string;
+class BranchesFiles extends Model<InferAttributes<BranchesFiles>, InferCreationAttributes<BranchesFiles>>{
+    declare BranchFileId: string;
 };
 
-Parentsfiles.init(
+BranchesFiles.init(
     {
-        ParentFileId:{
+        BranchFileId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -19,11 +19,11 @@ Parentsfiles.init(
         }
     },
     {
-        tableName: 'Parentsfiles',
+        tableName: 'BranchesFiles',
         indexes: [
             {
                 unique: true,
-                fields: ['ParentFileId']
+                fields: ['BranchFileId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt
@@ -32,4 +32,4 @@ Parentsfiles.init(
     },
 );
 
-export default Parentsfiles;
+export default BranchesFiles;

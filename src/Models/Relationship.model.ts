@@ -2,16 +2,16 @@ import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} 
 import Database from '../Config/Db.config';
 
 export interface IRelationship {
-    ChildrenId: string;
+    ParentId: string;
 }
 
 class Relationship extends Model<InferAttributes<Relationship>, InferCreationAttributes<Relationship>>{
-    declare ChildrenId: string;
+    declare ParentId: string;
 };
 
 Relationship.init(
     {
-        ChildrenId:{
+        ParentId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -23,7 +23,7 @@ Relationship.init(
         indexes: [
             {
                 unique: true,
-                fields: ['ChildrenId']
+                fields: ['ParentId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt

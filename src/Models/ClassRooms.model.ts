@@ -1,17 +1,17 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IBranchfiletypes {
-    BranchFileTypeId: string;
+export interface IClassRooms {
+    ClassRoomId: string;
 }
 
-class Branchfiletypes extends Model<InferAttributes<Branchfiletypes>, InferCreationAttributes<Branchfiletypes>>{
-    declare BranchFileTypeId: string;
+class ClassRooms extends Model<InferAttributes<ClassRooms>, InferCreationAttributes<ClassRooms>>{
+    declare ClassRoomId: string;
 };
 
-Branchfiletypes.init(
+ClassRooms.init(
     {
-        BranchFileTypeId:{
+        ClassRoomId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -19,11 +19,11 @@ Branchfiletypes.init(
         }
     },
     {
-        tableName: 'Branchfiletypes',
+        tableName: 'ClassRooms',
         indexes: [
             {
                 unique: true,
-                fields: ['BranchFileTypeId']
+                fields: ['ClassRoomId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt
@@ -32,4 +32,4 @@ Branchfiletypes.init(
     },
 );
 
-export default Branchfiletypes;
+export default ClassRooms;

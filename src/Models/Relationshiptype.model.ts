@@ -1,15 +1,15 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IRelationshiptype {
+export interface IRelationshipType {
     RelationshipTypeId: string;
 }
 
-class Relationshiptype extends Model<InferAttributes<Relationshiptype>, InferCreationAttributes<Relationshiptype>>{
+class RelationshipType extends Model<InferAttributes<RelationshipType>, InferCreationAttributes<RelationshipType>>{
     declare RelationshipTypeId: string;
 };
 
-Relationshiptype.init(
+RelationshipType.init(
     {
         RelationshipTypeId:{
             type: DataTypes.UUID,
@@ -19,7 +19,7 @@ Relationshiptype.init(
         }
     },
     {
-        tableName: 'Relationshiptype',
+        tableName: 'RelationshipType',
         indexes: [
             {
                 unique: true,
@@ -32,4 +32,4 @@ Relationshiptype.init(
     },
 );
 
-export default Relationshiptype;
+export default RelationshipType;

@@ -1,15 +1,15 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface ITeachergroups {
+export interface ITeacherGroups {
     TeacherId: string;
 }
 
-class Teachergroups extends Model<InferAttributes<Teachergroups>, InferCreationAttributes<Teachergroups>>{
+class TeacherGroups extends Model<InferAttributes<TeacherGroups>, InferCreationAttributes<TeacherGroups>>{
     declare TeacherId: string;
 };
 
-Teachergroups.init(
+TeacherGroups.init(
     {
         TeacherId:{
             type: DataTypes.UUID,
@@ -19,7 +19,7 @@ Teachergroups.init(
         }
     },
     {
-        tableName: 'Teachergroups',
+        tableName: 'TeacherGroups',
         indexes: [
             {
                 unique: true,
@@ -32,4 +32,4 @@ Teachergroups.init(
     },
 );
 
-export default Teachergroups;
+export default TeacherGroups;

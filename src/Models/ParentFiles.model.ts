@@ -1,17 +1,17 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IClassroom {
-    ClassRoomId: string;
+export interface IParentFiles {
+    ParentFileId: string;
 }
 
-class Classroom extends Model<InferAttributes<Classroom>, InferCreationAttributes<Classroom>>{
-    declare ClassRoomId: string;
+class ParentFiles extends Model<InferAttributes<ParentFiles>, InferCreationAttributes<ParentFiles>>{
+    declare ParentFileId: string;
 };
 
-Classroom.init(
+ParentFiles.init(
     {
-        ClassRoomId:{
+        ParentFileId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -19,11 +19,11 @@ Classroom.init(
         }
     },
     {
-        tableName: 'Classroom',
+        tableName: 'ParentFiles',
         indexes: [
             {
                 unique: true,
-                fields: ['ClassRoomId']
+                fields: ['ParentFileId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt
@@ -32,4 +32,4 @@ Classroom.init(
     },
 );
 
-export default Classroom;
+export default ParentFiles;

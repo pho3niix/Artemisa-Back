@@ -1,4 +1,4 @@
-import { Model, DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize';
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from 'sequelize';
 import Database from '../Config/Db.config';
 
 export interface IUsers {
@@ -91,16 +91,13 @@ Users.init(
         indexes: [
             {
                 unique: true,
-                fields: ['sUserId']
+                fields: ['UserId']
             }
         ],
-        createdAt: "tCreatedAt", // alias createdAt as tCreatedAt
-        updatedAt: "tUpdatedAt", // alias updatedAt as tUpdatedAt
+        createdAt: "CreatedAt", // alias createdAt as tCreatedAt
+        updatedAt: "UpdatedAt", // alias updatedAt as tUpdatedAt
         sequelize: Database, // passing the `sequelize` instance is required
     },
 );
-
-// Users.hasMany(RecoveryPasswordToken, { sourceKey: 'sUserId', foreignKey: 'sOwnerUserId' });
-// Users.hasMany(Sessions, { sourceKey: 'sUserId', foreignKey: 'sOwnerUserId' });
 
 export default Users;

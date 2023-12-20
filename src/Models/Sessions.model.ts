@@ -6,19 +6,15 @@ import Users from './Users.model';
 
 export interface ISessions {
     SessionId: string;
-    Token: string;
-    OwnerUserId: ForeignKey<Users['UserId']>;
+    UserId: ForeignKey<Users['UserId']>;
     ExpiresAt: Date;
-    UpdatedAt: Date;
     CreatedAt: Date;
 }
 
 class Sessions extends Model<InferAttributes<Sessions>, InferCreationAttributes<Sessions>>{
     declare SessionId: string;
-    declare Token: string;
-    declare OwnerUserId: ForeignKey<Users['UserId']>;
+    declare UserId: ForeignKey<Users['UserId']>;
     declare ExpiresAt: Date;
-    declare UpdatedAt: Date;
     declare CreatedAt: Date;
 }
 
@@ -30,23 +26,15 @@ Sessions.init(
             allowNull: false,
             primaryKey: true
         },
-        Token: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
         ExpiresAt: {
             type: DataTypes.DATE,
             defaultValue: Database.literal('CURRENT_TIMESTAMP')
         },
-        OwnerUserId: {
+        UserId: {
             type: DataTypes.UUID,
             allowNull: false
         },
         CreatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: Database.literal('CURRENT_TIMESTAMP')
-        },
-        UpdatedAt: {
             type: DataTypes.DATE,
             defaultValue: Database.literal('CURRENT_TIMESTAMP')
         }
@@ -57,12 +45,12 @@ Sessions.init(
             {
                 unique: true,
                 fields: ['SessionId']
-            },
+            }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt
         updatedAt: "UpdatedAt", // alias updatedAt as tUpdatedAt
-        sequelize: Database
-    }
-)
+        sequelize: Database, // passing the `sequelize` instance is required
+    },
+);
 
 export default Sessions;

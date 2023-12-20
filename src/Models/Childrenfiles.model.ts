@@ -1,17 +1,17 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IChildrenfiles {
-    ChildrenFileId: string;
+export interface IChildrenFiles {
+    ChildrenTypeId: string;
 }
 
-class Childrenfiles extends Model<InferAttributes<Childrenfiles>, InferCreationAttributes<Childrenfiles>>{
-    declare ChildrenFileId: string;
+class ChildrenFiles extends Model<InferAttributes<ChildrenFiles>, InferCreationAttributes<ChildrenFiles>>{
+    declare ChildrenTypeId: string;
 };
 
-Childrenfiles.init(
+ChildrenFiles.init(
     {
-        ChildrenFileId:{
+        ChildrenTypeId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -19,11 +19,11 @@ Childrenfiles.init(
         }
     },
     {
-        tableName: 'Childrenfiles',
+        tableName: 'ChildrenFiles',
         indexes: [
             {
                 unique: true,
-                fields: ['ChildrenFileId']
+                fields: ['ChildrenTypeId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt
@@ -32,4 +32,4 @@ Childrenfiles.init(
     },
 );
 
-export default Childrenfiles;
+export default ChildrenFiles;

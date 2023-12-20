@@ -2,16 +2,16 @@ import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} 
 import Database from '../Config/Db.config';
 
 export interface IReception {
-    ReceptionTypeId: string;
+    ReceptionId: string;
 }
 
 class Reception extends Model<InferAttributes<Reception>, InferCreationAttributes<Reception>>{
-    declare ReceptionTypeId: string;
+    declare ReceptionId: string;
 };
 
 Reception.init(
     {
-        ReceptionTypeId:{
+        ReceptionId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -23,7 +23,7 @@ Reception.init(
         indexes: [
             {
                 unique: true,
-                fields: ['ReceptionTypeId']
+                fields: ['ReceptionId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt

@@ -1,15 +1,15 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IMedicalservicefiles {
+export interface IMedicalServiceFiles {
     MedicalServiceFileId: string;
 }
 
-class Medicalservicefiles extends Model<InferAttributes<Medicalservicefiles>, InferCreationAttributes<Medicalservicefiles>>{
+class MedicalServiceFiles extends Model<InferAttributes<MedicalServiceFiles>, InferCreationAttributes<MedicalServiceFiles>>{
     declare MedicalServiceFileId: string;
 };
 
-Medicalservicefiles.init(
+MedicalServiceFiles.init(
     {
         MedicalServiceFileId:{
             type: DataTypes.UUID,
@@ -19,7 +19,7 @@ Medicalservicefiles.init(
         }
     },
     {
-        tableName: 'Medicalservicefiles',
+        tableName: 'MedicalServiceFiles',
         indexes: [
             {
                 unique: true,
@@ -32,4 +32,4 @@ Medicalservicefiles.init(
     },
 );
 
-export default Medicalservicefiles;
+export default MedicalServiceFiles;
