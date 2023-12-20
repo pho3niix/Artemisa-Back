@@ -7,8 +7,8 @@ export interface IUsers {
     Lastname: string;
     Email: string;
     Password: string;
+    ProfilePicture: string;
     PhoneNumber: string;
-    PhoneExtension: string;
     PlatformAccess: boolean;
     Active: boolean;
     UpdatedAt: Date;
@@ -22,8 +22,8 @@ class Users extends Model<InferAttributes<Users>, InferCreationAttributes<Users>
     declare Lastname: string;
     declare Email: string;
     declare Password: string;
+    declare ProfilePicture: string;
     declare PhoneNumber: string;
-    declare PhoneExtension: string;
     declare PlatformAccess: boolean;
     declare Active: boolean;
     declare UpdatedAt: Date;
@@ -54,11 +54,10 @@ Users.init(
         Password: {
             type: DataTypes.STRING
         },
-        PhoneNumber: {
-            type: DataTypes.STRING,
-            allowNull: false
+        ProfilePicture: {
+            type: DataTypes.STRING
         },
-        PhoneExtension: {
+        PhoneNumber: {
             type: DataTypes.STRING,
             allowNull: false
         },
