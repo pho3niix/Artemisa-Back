@@ -11,7 +11,7 @@ export default {
             },
             welcome: (sFullname: string, sLang: 'sp' | 'en'): string => {
                 const Translations = {
-                    sp: `Bienvenido a Ropa como nueva ${sFullname}`
+                    sp: `Bienvenido a Artemisa ${sFullname}`
                 }
                 return Translations[sLang];
             },

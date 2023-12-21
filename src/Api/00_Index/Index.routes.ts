@@ -14,6 +14,7 @@ function BaseRoute(env: string, module: string): string {
 
 /**@Routes */
 import Authorization from '../01_Users/0102_authorization/010201_index/auth.routes';
+import Sessions from '../01_Users/0102_authorization/010203_sessions/sessions.routes';
 
 export default (app: Application, env: string): void => {
 
@@ -23,5 +24,13 @@ export default (app: Application, env: string): void => {
         celebrate({ params: LanguageParams }),
         aH(Language()),
         Authorization
+    );
+
+    /**@Sessions */
+    app.use(
+        BaseRoute(env, 'session'),
+        celebrate({ params: LanguageParams }),
+        aH(Language()),
+        Sessions
     );
 }

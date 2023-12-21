@@ -200,14 +200,6 @@ class Methods {
         return new Date(tDate.getTime() + (iMinutes * 60 * 1000));
     }
 
-    CreateJWTToken(payload: any): string {
-        return jwt.sign({
-            hash: this.EncryptObject(payload)
-        }, process.env.JWT_SECRET, {
-            algorithm: 'HS256'
-        });
-    }
-
     CreateToken(payload: IPayload): string {
         const { UserId, SessionId } = payload;
         const NewPayload: IPayload = {

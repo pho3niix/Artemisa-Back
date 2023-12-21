@@ -7,4 +7,13 @@ const router = Router();
 
 /**@General_Actions */
 
+router.route('/')
+    .post(
+        celebrate({ body: Validations.Login }),
+        aH(Controllers.Login)
+    )
+    .delete(
+        aH(Controllers.LogOut)
+    )
+
 export default router;

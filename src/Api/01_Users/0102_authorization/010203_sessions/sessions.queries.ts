@@ -1,13 +1,16 @@
+import Sessions, { ISessions } from '../../../../Models/Sessions.model';
+import Users, { IUsers } from '../../../../Models/Users.model';
 import Services, { IFilters, IPage } from '../../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
 
 export interface ISave {
-    Name: string;
-    LastName: string;
-    Email: string;
-    PhoneNumber: string;
-    Password: string;
-    ConfirmPassword?: string;
+    UserId: Users['UserId'];
+    Expiration: number;
+}
+
+export interface ILogin {
+    Email: Users['Email'];
+    Password: Users['Password'];
 }
 
 class Structures {
@@ -25,6 +28,38 @@ class Structures {
 class Queries extends Structures {
     constructor() {
         super();
+    }
+
+    public async CreateSession({
+        UserId,
+        Expiration
+    }: ISave): Promise<string> {
+        const Session = await Sessions.create({
+            UserId,
+            ExpiresAt: Services.ExpireToken(new Date(), Expiration)
+        });
+
+        return Services.CreateToken({ UserId, SessionId: Session.SessionId });;
+    }
+
+    public async LogOut({
+        SessionId
+    }: { SessionId: Sessions['SessionId'] }): Promise<number> {
+        return await Sessions.destroy({
+            where: {
+                SessionId
+            }
+        })
+    }
+
+    public async VerifySession({
+        SessionId
+    }: { SessionId: ISessions['SessionId'] }): Promise<ISessions> {
+        return await Sessions.findOne({
+            where: {
+                SessionId
+            }
+        }) ?? null
     }
 }
 

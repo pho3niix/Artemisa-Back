@@ -17,8 +17,8 @@ class Methods {
         return Password != NewPassword;
     }
 
-    public ComparePassword(Password: string, sHash: string): boolean {
-        return Bcrypt.compareSync(Password, sHash);
+    public ComparePassword(Password: string, Hash: string): boolean {
+        return Bcrypt.compareSync(Password, Hash);
     }
 }
 
