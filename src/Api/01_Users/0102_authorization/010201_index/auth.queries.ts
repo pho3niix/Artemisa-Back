@@ -1,7 +1,7 @@
 import Users, { IUsers } from '../../../../Models/Users.model';
 import Services, { IFilters, IPage } from '../../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
-import AuthServices from './auth.services'
+import AuthServices from '../../../../Services/Auth.services'
 
 export interface ISave {
     Name: string;

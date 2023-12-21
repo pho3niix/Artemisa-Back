@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
 import { ISave } from './auth.queries';
-import AuthServices from './auth.services'
+import AuthServices from '../../../../Services/Auth.services'
 
 class Controllers {
     constructor() { }

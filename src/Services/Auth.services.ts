@@ -1,5 +1,5 @@
 import Bcrypt from 'bcryptjs';
-import { IUsers } from '../../../../Models/Users.model';
+import { IUsers } from '../Models/Users.model';
 
 export interface ILogin {
     Email: IUsers['Email'];

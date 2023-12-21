@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
 import { ILogin } from './sessions.queries';
-import AuthServices from '../010201_index/auth.services';
+import AuthServices from '../../../../Services/Auth.services';
 import Validations from '../../../../Utils/ValidationError.util';
 import jwt from 'jsonwebtoken';
 import IndexServices from '../../../../Services/Index.services';
