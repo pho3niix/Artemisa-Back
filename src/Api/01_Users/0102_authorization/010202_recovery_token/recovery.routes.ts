@@ -7,4 +7,14 @@ const router = Router();
 
 /**@General_Actions */
 
+router.route('/')
+    .post(
+        celebrate({ body: Validations.RecoveryBody }),
+        aH(Controllers.SendRecoveryToken)
+    )
+    .patch(
+        celebrate({ body: Validations.ChangePasswordBody, query: Validations.ChangePasswordQuery }),
+        aH(Controllers.SetPasswordByToken)
+    )
+
 export default router;

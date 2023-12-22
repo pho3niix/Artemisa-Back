@@ -38,13 +38,29 @@ class Controllers {
             Password
         });
 
-        await RecoveryToken.CreateTokenByUser({ NewUser, Lang, Expiration: 15 });
-
         return res.status(200).json({
             message: Messages.Users.created[Lang],
             status: true,
             results: NewUser
         });
+    }
+
+    public async VerifyUser(req: Request, res: Response, next: NextFunction): Promise<Response | any> {
+        const {
+            Lang
+        } = res.locals;
+
+        const {
+            UserId
+        } = req.params;
+
+        const User = await Users.GetUserById({ UserId });
+
+        if (!User) return next(new MyError(404, Messages.Users.getById.notFound[Lang]));
+
+        await Users.ChangePlatformAccess({ UserId, Access: true });
+
+        return res.redirect(process.env.HOME_PAGE)
     }
 }
 

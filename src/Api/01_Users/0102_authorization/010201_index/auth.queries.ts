@@ -1,7 +1,8 @@
 import Users, { IUsers } from '../../../../Models/Users.model';
 import Services, { IFilters, IPage } from '../../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
-import AuthServices from '../../../../Services/Auth.services'
+import AuthServices from '../../../../Services/Auth.services';
+import Mailer from '../../../../Services/Mailer.services';
 
 export interface ISave {
     Name: string;
@@ -44,9 +45,25 @@ class Queries extends Structures {
             PhoneNumber
         })
 
+        this.WelcomeMessage({ User });
+
         return await Users.findOne({
             where: { UserId: User.UserId },
             attributes: ['UserId', 'Name', 'LastName', 'Email', 'FullName']
+        })
+    }
+
+    private WelcomeMessage({
+        User
+    }: {
+        User: Users;
+    }): void {
+        Mailer.emit('SendRawEmail', {
+            Emails: [User.Email],
+            Data: {
+                Subject: 'Bienvenido a Artemisa',
+                Message: `Por favor ingresa al siguiente enlace para confirmar tu registro: ${process.env.SERVER}/api/v1/auth/${User.UserId}`
+            }
         })
     }
 }

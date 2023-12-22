@@ -29,21 +29,23 @@ class Queries extends Structures {
         super();
     }
 
-    public async CreateTokenByUser({
-        NewUser,
+    public async SendRecoveryToken({
+        User,
         Lang,
         Expiration // in minutes
     }: {
-        NewUser: IUsers;
+        User: IUsers;
         Lang: string;
         Expiration: number
     }): Promise<IRecoveryToken> {
+        this.DeleteAllTokenByUserId({ UserId: User.UserId });
+
         const ExpiredDate: Date = IndexServices.ExpireToken(new Date(), Expiration);
 
         const Token: string = IndexServices.CreateRandomToken(64)
 
         const GeneratedToken: IRecoveryToken = await RecoveryToken.create({
-            UserId: NewUser.UserId,
+            UserId: User.UserId,
             Token,
             ExpiresAt: ExpiredDate
         });
@@ -51,10 +53,10 @@ class Queries extends Structures {
         const [Minutes, Hours, Seconds] = [ExpiredDate.getMinutes().toString(), ExpiredDate.getHours().toString(), ExpiredDate.getSeconds().toString()];
 
         MailServices.emit('SendRawEmail', {
-            Emails: [NewUser.Email],
+            Emails: [User.Email],
             Data: {
-                FullName: NewUser.FullName,
-                Url: `${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}/password-recovery?sToken=${Token}&sHost=${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}&sLang=${Lang}`
+                Message: `Por favor ingresa al siguiente enlace para actualizar tu contraseña: ${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}/password-recovery?Token=${Token}&Host=${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}&Lang=${Lang}`,
+                Subject: 'Recuperación de contraseña'
             }
         })
 
@@ -65,7 +67,7 @@ class Queries extends Structures {
         }, async (data: null) => {
             await this.DeleteTokenById({
                 Token,
-                UserId: NewUser.UserId
+                UserId: User.UserId
             })
         });
 

@@ -12,4 +12,10 @@ router.route('/')
         aH(Controllers.SignUp)
     )
 
+router.route('/:UserId')
+    .get(
+        celebrate({ params: Validations.UserParams }),
+        aH(Controllers.VerifyUser)
+    )
+
 export default router;

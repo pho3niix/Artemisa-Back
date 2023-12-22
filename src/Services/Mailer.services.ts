@@ -81,7 +81,7 @@ MailEvent.on('SendEmail', async function ({ Emails, Data, Type, Subject }: IMail
     }
 });
 
-MailEvent.on('SendRawEmail', async function ({ Emails, Data }: { Emails: string[], Data: { Subject?: string, FullName?: string, sUrl?: string } }): Promise<void> {
+MailEvent.on('SendRawEmail', async function ({ Emails, Data }: { Emails: string[], Data: { Subject?: string, Message?: string } }): Promise<void> {
 
     try {
         await mail.sendEmail({
@@ -92,10 +92,10 @@ MailEvent.on('SendRawEmail', async function ({ Emails, Data }: { Emails: string[
                 Body: {
                     Html: {
                         Data: `
-                            <h3>Bienvenido a Artemisa</h3>
+                            <h3>${Data.Subject}</h3>
                             <br>
                             <br>
-                            <p>Por favor, entra al siguiente enlace para actualizar tu contraseña: ${Data.sUrl}</p>
+                            <p>${Data.Message}</p>
                         `
                     }
                 },

@@ -61,6 +61,16 @@ class Queries extends Structures {
             }
         }) ?? null
     }
+
+    public async DeleteAllSessionsByUser({
+        UserId
+    }: { UserId: Users['UserId'] }): Promise<number> {
+        return Sessions.destroy({
+            where: {
+                UserId
+            }
+        })
+    }
 }
 
 export default new Queries();
