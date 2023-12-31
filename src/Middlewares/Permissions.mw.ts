@@ -22,7 +22,7 @@ export const OnlySuperAdmin = () => async (req: Request, res: Response, next: Ne
 
     const TokenData = Services.DecryptObject(Verify.hash);
 
-    // const Admin = await Users.GetUserById({ sUserId: TokenData.sUserId });
+    // const Admin = await Users.GetUserById({ UserId: TokenData.UserId });
 
     // if (!Admin) return next(new MyError(403, UtilMessage.Middleware.accessDenied[Lang]));
 
@@ -53,7 +53,7 @@ export const OwnUser = () => async (req: Request, res: Response, next: NextFunct
     } = req.headers;
 
     const {
-        sUserId
+        UserId
     } = req.params
 
     if (!authorization) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
@@ -64,7 +64,7 @@ export const OwnUser = () => async (req: Request, res: Response, next: NextFunct
 
     const TokenData = Services.DecryptObject(Verify.hash);
 
-    if (TokenData.sUserId != sUserId) return next(new MyError(403, UtilMessage.Middleware.accessDenied[Lang]));
+    if (TokenData.UserId != UserId) return next(new MyError(403, UtilMessage.Middleware.accessDenied[Lang]));
 
     return next();
 }
@@ -79,7 +79,7 @@ export const NotOwnUser = () => async (req: Request, res: Response, next: NextFu
     } = req.headers;
 
     const {
-        sUserId
+        UserId
     } = req.params;
 
     if (!authorization) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
@@ -90,7 +90,7 @@ export const NotOwnUser = () => async (req: Request, res: Response, next: NextFu
 
     const TokenData = Services.DecryptObject(Verify.hash);
 
-    if (TokenData.sUserId == sUserId) return next(new MyError(403, UtilMessage.Middleware.accessDenied[Lang]));
+    if (TokenData.UserId == UserId) return next(new MyError(403, UtilMessage.Middleware.accessDenied[Lang]));
 
     return next();
 }
