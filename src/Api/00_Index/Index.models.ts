@@ -2,6 +2,9 @@
 import Users from '../01_Users/0101_index/users.queries';
 import { IUsers } from '../../Models/Users.model';
 
+/**@Principals */
+import { IPrincipals } from '../../Models/Principals.model';
+
 /**@Sessions */
 import Sessions from '../01_Users/0102_authorization/010203_sessions/sessions.queries';
 import { ISessions } from '../../Models/Sessions.model';

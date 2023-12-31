@@ -1,4 +1,5 @@
 import Users, { IUsers } from '../../../Models/Users.model';
+import Principals, { IPrincipals } from '../../../Models/Principals.model';
 import Services, { IFilters, IPage } from '../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
 import AuthServices from '../../../Services/Auth.services';
@@ -101,6 +102,16 @@ class Queries extends Structures {
                 UserId,
                 Active: true
             }
+        })
+    }
+
+    public async CreatePrincipal({
+        PrincipalId,
+        PlanId
+    }: IPrincipals): Promise<IPrincipals> {
+        return await Principals.create({
+            PrincipalId,
+            PlanId
         })
     }
 }

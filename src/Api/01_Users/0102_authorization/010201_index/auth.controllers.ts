@@ -1,4 +1,4 @@
-import { RecoveryToken, Authorization, Users } from '../../../00_Index/Index.models';
+import { Authorization, Users } from '../../../00_Index/Index.models';
 import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
@@ -37,6 +37,8 @@ class Controllers {
             PhoneNumber,
             Password
         });
+
+        await Users.CreatePrincipal({ PrincipalId: NewUser.UserId, PlanId: null });
 
         return res.status(200).json({
             message: Messages.Users.created[Lang],

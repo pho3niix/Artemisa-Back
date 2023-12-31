@@ -1,17 +1,17 @@
 import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IClassRooms {
-    ClassRoomId: string;
+export interface IGroups {
+    GroupId: string;
 }
 
-class ClassRooms extends Model<InferAttributes<ClassRooms>, InferCreationAttributes<ClassRooms>>{
-    declare ClassRoomId: string;
+class Groups extends Model<InferAttributes<Groups>, InferCreationAttributes<Groups>>{
+    declare GroupId: string;
 };
 
-ClassRooms.init(
+Groups.init(
     {
-        ClassRoomId:{
+        GroupId:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -19,11 +19,11 @@ ClassRooms.init(
         }
     },
     {
-        tableName: 'ClassRooms',
+        tableName: 'Groups',
         indexes: [
             {
                 unique: true,
-                fields: ['ClassRoomId']
+                fields: ['GroupId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt
@@ -32,4 +32,4 @@ ClassRooms.init(
     },
 );
 
-export default ClassRooms;
+export default Groups;

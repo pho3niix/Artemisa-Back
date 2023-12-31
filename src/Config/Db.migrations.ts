@@ -11,7 +11,7 @@ import SchedulePlans from "../Models/SchedulePlans.model";
 import TeacherFiles from "../Models/TeacherFiles.model";
 import TeacherGroups from "../Models/TeacherGroups.model";
 import Teachers from "../Models/Teachers.model";
-import ClassRooms from "../Models/ClassRooms.model";
+import Groups from "../Models/Groups.model";
 import MedicalServiceFiles from "../Models/MedicalServiceFiles.model";
 import MedicalService from "../Models/MedicalService.model";
 import BranchesFiles from "../Models/BranchesFiles.model";
@@ -22,12 +22,18 @@ import States from "../Models/States.model";
 import RecoveryToken from "../Models/RecoveryToken.model";
 import Sessions from "../Models/Sessions.model";
 import Users from "../Models/Users.model";
+import Principals from '../Models/Principals.model';
+import Plans from '../Models/Plans.model';
 
 /**@RecoveryToken */
 RecoveryToken.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId' });
 
 /**@Sessions */
 Sessions.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId', as: 'Users' });
+
+/**@Principals */
+Principals.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'PrincipalId', as: 'Users' });
+Principals.belongsTo(Plans, { targetKey: 'PlanId', foreignKey: 'PlanId', as: 'Plans' });
 
 function Migrations() {
 	return (async () => {
@@ -45,7 +51,7 @@ function Migrations() {
 		console.log('BranchesFiles', BranchesFiles == Db.models.BranchesFiles);
 		console.log('MedicalService', MedicalService == Db.models.MedicalService);
 		console.log('MedicalServiceFiles', MedicalServiceFiles == Db.models.MedicalServiceFiles);
-		console.log('ClassRooms', ClassRooms == Db.models.ClassRooms);
+		console.log('Groups', Groups == Db.models.Groups);
 		console.log('Teachers', Teachers == Db.models.Teachers);
 		console.log('TeacherGroups', TeacherGroups == Db.models.TeacherGroups);
 		console.log('TeacherFiles', TeacherFiles == Db.models.TeacherFiles);
@@ -58,6 +64,8 @@ function Migrations() {
 		console.log('Reception', Reception == Db.models.Reception);
 		console.log('ParentFiles', ParentFiles == Db.models.ParentFiles);
 		console.log('ChildrenFiles', ChildrenFiles == Db.models.ChildrenFiles);
+		console.log('Plans', Plans == Db.models.Plans);
+		console.log('Principals', Principals == Db.models.Principals);
 
 		console.log('Migration completed.');
 
