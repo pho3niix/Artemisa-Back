@@ -4,16 +4,23 @@ import Services, { IFilters, IPage } from '../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
 import AuthServices from '../../../Services/Auth.services';
 
-interface IUserId {
-    UserId: Users['UserId']
+export interface IUserId {
+    UserId?: Users['UserId']
+}
+
+export interface IUpdate {
+    UserId?: IUsers['UserId'];
+    Name: IUsers['Name'];
+    LastName: IUsers['LastName'];
+    PhoneNumber: IUsers['PhoneNumber'];
 }
 
 export interface ISave {
-    Name: string;
-    LastName: string;
-    Email: string;
-    PhoneNumber: string;
-    Password: string;
+    Name: IUsers['Name'];
+    LastName: IUsers['LastName'];
+    Email: IUsers['Email'];
+    PhoneNumber: IUsers['PhoneNumber'];
+    Password: IUsers['Password'];
     ConfirmPassword?: string;
 }
 
@@ -68,7 +75,19 @@ class Queries extends Structures {
             },
             attributes: ['UserId', 'Name', 'LastName', 'FullName', 'PhoneNumber', 'Email']
         })
-        return this._Detail(User)
+        return User ? this._Detail(User) : null
+    }
+
+    public async VerifyUserById({
+        UserId
+    }: IUserId): Promise<{ UserId: Users['UserId'], PlatformAccess: Users['PlatformAccess'] }> {
+        return await Users.findOne({
+            where: {
+                UserId,
+                Active: true
+            },
+            attributes: ['UserId', 'PlatformAccess']
+        })
     }
 
     public async ChangePlatformAccess({
@@ -113,6 +132,27 @@ class Queries extends Structures {
             PrincipalId,
             PlanId
         })
+    }
+
+    public async UpdateUserById({
+        UserId,
+        Name,
+        LastName,
+        PhoneNumber
+    }: IUpdate): Promise<IList> {
+        await Users.update({
+            Name,
+            LastName,
+            PhoneNumber,
+            UpdatedAt: new Date()
+        }, {
+            where: {
+                UserId,
+                Active: true
+            }
+        })
+
+        return this.GetUserById({ UserId });
     }
 }
 

@@ -71,6 +71,23 @@ class Queries extends Structures {
             }
         })
     }
+
+    public async RefreshToken({
+        SessionId,
+        Expiration
+    }: {
+        SessionId: ISessions['SessionId']
+        Expiration: number
+    }): Promise<void> {
+        const ExtendTime = Services.ExpireToken(new Date(), Expiration);
+        await Sessions.update({
+            ExpiresAt: ExtendTime
+        }, {
+            where: {
+                SessionId
+            }
+        })
+    }
 }
 
 export default new Queries();

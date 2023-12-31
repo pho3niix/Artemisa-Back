@@ -1,4 +1,4 @@
-// import { Users, Sessions, ISessions } from '../Api/00_Index/Index.models';
+import { Users, Sessions, ISessions } from '../Api/00_Index/Index.models';
 import MyError from './Error.mw';
 import { Response, Request, NextFunction } from 'express';
 import UtilMessages from '../Utils/ValidationError.util';
@@ -22,16 +22,16 @@ declare module 'express' {
 
 const RefreshTime: number = 30;
 
-// async function VerifyExpireToken(Session: ISessions) {
-//     const Current = new Date();
-//     const Expires = new Date(Session.tExpiresAt);
+async function VerifyExpireToken(Session: ISessions) {
+    const Current = new Date();
+    const Expires = new Date(Session.ExpiresAt);
 
-//     if ((Current > Expires)) {
-//         await Sessions.LogOutBySessionId({ sSessionId: Session.sSessionId })
-//     }
+    if ((Current > Expires)) {
+        await Sessions.LogOut({ SessionId: Session.SessionId })
+    }
 
-//     return Current > Expires;
-// }
+    return Current > Expires;
+}
 
 export const CheckSession = () => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const {
@@ -52,28 +52,28 @@ export const CheckSession = () => async (req: Request, res: Response, next: Next
 
     const DecodeHashData = Services.DecryptObject(TokenData.hash);
 
-    // const User = await Users.VerifyUserById({ sUserId: DecodeHashData.sUserId });
+    const User = await Users.VerifyUserById({ UserId: DecodeHashData.UserId });
 
-    // if (!User) return next(new MyError(401, Messages.auth.login.invalidCredentials[Lang]));
+    if (!User) return next(new MyError(401, Messages.Auth.login.invalidCredentials[Lang]));
 
-    // if (!User.bPlatformAccess) return next(new MyError(401, Messages.auth.signup.platformAccessFalse[Lang]));
+    if (!User.PlatformAccess) return next(new MyError(401, Messages.Auth.signup.platformAccessFalse[Lang]));
 
-    // const Session = await Sessions.VerifySession({ sSessionId: DecodeHashData.sSessionId });
+    const Session = await Sessions.VerifySession({ SessionId: DecodeHashData.SessionId });
 
-    // if (!Session) return next(new MyError(401, Messages.auth.session.verifySession[Lang]));
+    if (!Session) return next(new MyError(401, Messages.Auth.session.verifySession[Lang]));
 
-    // const Expires = await VerifyExpireToken(Session);
+    const Expires = await VerifyExpireToken(Session);
 
-    // if (Expires) return next(new MyError(401, Messages.auth.session.expired[Lang]));
+    if (Expires) return next(new MyError(401, Messages.Auth.session.expired[Lang]));
 
-    // await Sessions.RefreshToken({
-    //     sSessionId: DecodeHashData.sSessionId,
-    //     iMinutesExpiration: RefreshTime
-    // });
+    await Sessions.RefreshToken({
+        SessionId: DecodeHashData.SessionId,
+        Expiration: RefreshTime
+    });
 
-    // res.locals.sOwnId = DecodeHashData.sUserId;
-    // res.locals.sSessionToken = Bearer;
-    // res.locals.sSessionId = DecodeHashData.sSessionId;
+    res.locals.OwnId = DecodeHashData.UserId;
+    res.locals.SessionToken = Bearer;
+    res.locals.SessionId = DecodeHashData.SessionId;
 
     return next();
 }

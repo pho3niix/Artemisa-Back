@@ -11,6 +11,6 @@ const server = app.listen(Port, (): void => {
     );
 });
 
-server.timeout = 10000;
+//server.timeout = 10000;
 
 export default server;

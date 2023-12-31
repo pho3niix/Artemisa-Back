@@ -16,6 +16,7 @@ function BaseRoute(env: string, module: string): string {
 import Authorization from '../01_Users/0102_authorization/010201_index/auth.routes';
 import Sessions from '../01_Users/0102_authorization/010203_sessions/sessions.routes';
 import Recovery from '../01_Users/0102_authorization/010202_recovery_token/recovery.routes';
+import Users from '../01_Users/0101_index/users.routes';
 
 export default (app: Application, env: string): void => {
 
@@ -41,5 +42,14 @@ export default (app: Application, env: string): void => {
         celebrate({ params: LanguageParams }),
         aH(Language()),
         Recovery
+    );
+
+    /**@Users */
+    app.use(
+        BaseRoute(env, 'users'),
+        celebrate({ params: LanguageParams }),
+        aH(Language()),
+        aH(CheckSession()),
+        Users
     );
 }
