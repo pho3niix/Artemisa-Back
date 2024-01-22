@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  db_local:
+    image: postgres:14.7
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    expose:
+      - 5440
+    ports:
+      - 5440:5432
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - local_net
+
   production:
     image: prod_img
     build: .
@@ -19,6 +35,28 @@ services:
       - .env
     networks:
       - proxy_net
+
+  local:
+    image: local_img
+    build: .
+    restart: unless-stopped
+    container_name: local
+    command: >
+      sh -c "npm run db:migrate
+      && node dist/Server.js"
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: local
+      NODE_PORT: 3001
+      HOME_PAGE: http://localhost:3000
+      PG_CONNECTION_LOCAL: postgres://postgres:postgres@db_local:5432/postgres
+    env_file:
+      - .env
+    depends_on:
+      - db_local
+    networks:
+      - local_net
 
   development:
     image: dev_img
@@ -94,7 +132,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - proxy_net
+
+volumes:
+  dbdata:
       
 networks:
   proxy_net:
+    driver: bridge
+  local_net:
     driver: bridge

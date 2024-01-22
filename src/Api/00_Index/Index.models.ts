@@ -15,7 +15,7 @@ import { IStates } from '../../Models/States.model';
 
 /**@RecoveryToken */
 import RecoveryToken from '../01_Users/0102_authorization/010202_recovery_token/recovery.queries';
-import { IRecoveryToken } from '../../../src/Models/RecoveryToken.model';
+import { IRecoveryToken } from '../../Models/RecoveryToken.model';
 
 /**@Authorization */
 import Authorization from '../01_Users/0102_authorization/010201_index/auth.queries';
