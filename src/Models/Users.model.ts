@@ -2,7 +2,7 @@ import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey 
 import Database from '../Config/Db.config';
 
 /**@Associations */
-import RecoveryToken from './RecoveryToken.model';
+import RecoveryToken from './Recovery_token.model';
 import Sessions from './Sessions.model';
 
 export interface IUsers {
