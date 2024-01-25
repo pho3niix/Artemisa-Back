@@ -57,6 +57,7 @@ services:
       - db_local
     networks:
       - local_net
+      - proxy_net
 
   development:
     image: dev_img
