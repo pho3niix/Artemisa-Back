@@ -45,10 +45,10 @@ services:
       sh -c "npm run db:migrate
       && node dist/Server.js"
     ports:
-      - "3001:3001"
+      - "3000:3000"
     environment:
       NODE_ENV: local
-      NODE_PORT: 3001
+      NODE_PORT: 3000
       HOME_PAGE: http://localhost:3000
       PG_CONNECTION_LOCAL: postgres://postgres:postgres@db_local:5432/postgres
     env_file:
@@ -73,10 +73,14 @@ services:
       - NODE_ENV=development
       - NODE_PORT=3001
       - HOME_PAGE=http://localhost:3001
+      - PG_CONNECTION_LOCAL=postgres://postgres:postgres@db_local:5432/postgres
     env_file:
       - .env
+    depends_on:
+      - db_local
     networks:
       - proxy_net
+      - local_net
 
   testing:
     image: test_img
@@ -122,8 +126,8 @@ services:
     container_name: proxy_reverse
     ports:
       - "80:80"
-    # depends_on:
-    #   - development
+    depends_on:
+      - development
     #   - testing
     #   - preproduction
     #   - production
