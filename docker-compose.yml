@@ -50,7 +50,7 @@ services:
       NODE_ENV: local
       NODE_PORT: 3000
       HOME_PAGE: http://localhost:3000
-      PG_CONNECTION_LOCAL: postgres://postgres:postgres@db_local:5432/postgres
+      PG_CONNECTION_DEVELOPMENT: postgres://postgres:postgres@db_local:5432/postgres
     env_file:
       - .env
     depends_on:
