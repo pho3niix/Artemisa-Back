@@ -17,6 +17,7 @@ import Authorization from '../01_Users/0102_authorization/010201_index/auth.rout
 import Sessions from '../01_Users/0102_authorization/010203_sessions/sessions.routes';
 import Recovery from '../01_Users/0102_authorization/010202_recovery_token/recovery.routes';
 import Users from '../01_Users/0101_index/users.routes';
+import SubscriptionsPlans from '../01_Users/0103_subscription/010301_index/subscription.routes'
 
 export default (app: Application, env: string): void => {
 
@@ -52,4 +53,12 @@ export default (app: Application, env: string): void => {
         aH(CheckSession()),
         Users
     );
+
+    /**@Subscriptions_plans */
+    app.use(
+        BaseRoute(env, 'subscriptions'),
+        celebrate({ params: LanguageParams }),
+        aH(Language()),
+        SubscriptionsPlans
+    )
 }

@@ -23,7 +23,7 @@ import RecoveryToken from "../Models/Recovery_token.model";
 import Sessions from "../Models/Sessions.model";
 import Users from "../Models/Users.model";
 import Principals from '../Models/Principals.model';
-import Plans from '../Models/Plans.model';
+import SubscriptionPlans from '../Models/SubscriptionPlans.model';
 
 /**@RecoveryToken */
 RecoveryToken.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId' });
@@ -33,7 +33,7 @@ Sessions.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId', as: 'User
 
 /**@Principals */
 Principals.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'PrincipalId', as: 'Users' });
-Principals.belongsTo(Plans, { targetKey: 'PlanId', foreignKey: 'PlanId', as: 'Plans' });
+Principals.belongsTo(SubscriptionPlans, { targetKey: 'PlanId', foreignKey: 'PlanId', as: 'SubscriptionPlans' });
 
 function Migrations() {
 	return (async () => {
@@ -64,7 +64,7 @@ function Migrations() {
 		console.log('Reception', Reception == Db.models.Reception);
 		console.log('ParentFiles', ParentFiles == Db.models.ParentFiles);
 		console.log('ChildrenFiles', ChildrenFiles == Db.models.ChildrenFiles);
-		console.log('Plans', Plans == Db.models.Plans);
+		console.log('SubscriptionPlans', SubscriptionPlans == Db.models.SubscriptionPlans);
 		console.log('Principals', Principals == Db.models.Principals);
 
 		console.log('Migration completed.');

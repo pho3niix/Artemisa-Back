@@ -1,7 +1,7 @@
 import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from 'sequelize';
 import Database from '../Config/Db.config';
 
-export interface IPlans {
+export interface ISubscriptionPlans {
     PlanId: string;
     Name: string;
     Code: string;
@@ -13,7 +13,7 @@ export interface IPlans {
     CreatedAt?: Date;
 }
 
-class Plans extends Model<InferAttributes<Plans>, InferCreationAttributes<Plans>>{
+class SubscriptionPlans extends Model<InferAttributes<SubscriptionPlans>, InferCreationAttributes<SubscriptionPlans>>{
     declare PlanId: string;
     declare Name: string;
     declare Code: string;
@@ -25,7 +25,7 @@ class Plans extends Model<InferAttributes<Plans>, InferCreationAttributes<Plans>
     declare CreatedAt: Date;
 };
 
-Plans.init(
+SubscriptionPlans.init(
     {
         PlanId: {
             type: DataTypes.UUID,
@@ -68,7 +68,7 @@ Plans.init(
         },
     },
     {
-        tableName: 'Plans',
+        tableName: 'SubscriptionPlans',
         indexes: [
             {
                 unique: true,
@@ -81,4 +81,4 @@ Plans.init(
     },
 );
 
-export default Plans;
+export default SubscriptionPlans;

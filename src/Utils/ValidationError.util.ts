@@ -113,6 +113,32 @@ export default {
                 sp: 'Por favor, ingresa un token de sesión correcto.'
             }
         },
+        Plans: {
+            PlanId: {
+                sp: 'Por favor, ingresa un id de plan correcto.',
+                en: 'Please, enter a correct plan id.'
+            },
+            Name: {
+                sp: 'Por favor, ingresa un nombre para plan correcto no mayor a 50 carácteres.',
+                en: 'Please, enter a correct plan name no longer than 50 characters.'
+            },
+            Description: {
+                sp: 'Por favor, ingresa una descripción de plan correcta no mayor a 255 carácteres.',
+                en: 'Please, enter a correct plan description no longer than 255 characters.'
+            },
+            Code: {
+                sp: 'Por favor, ingresa un código único para el código del plan no mayor a 10 caráctares.',
+                en: 'Please, enter a correct unique plan code no longer than 10 characters.'
+            },
+            Price: {
+                sp: 'Por favor, ingresa un valor númerico para el precio del plan.',
+                en: 'Please, enter a correct numeric value for plan price'
+            },
+            ChildrenCapacity: {
+                sp: 'Por favor, ingresa un valor númerico valido para la capacidad de niños por plan.',
+                en: 'Please, enter a correct numeric value for children capacity by plan.'
+            }
+        },
         Users: {
             Name: {
                 sp: "Por favor, ingresa un nombre correcto.",

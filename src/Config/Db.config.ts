@@ -22,6 +22,7 @@ const sequelize = new Sequelize(Environments[process.env.NODE_ENV] ?? Default, {
         await sequelize.authenticate()
         return console.log('Database is running and ready to work.')
     } catch (error) {
+        console.log(error)
         return console.log('Unable to connect database.')
     }
 })();
