@@ -15,10 +15,14 @@ import { IStates } from '../../Models/States.model';
 
 /**@RecoveryToken */
 import RecoveryToken from '../01_Users/0102_authorization/010202_recovery_token/recovery.queries';
-import { IRecoveryToken } from '../../Models/RecoveryToken.model';
+import { IRecoveryToken } from '../../Models/Recovery_token.model';
 
 /**@Authorization */
 import Authorization from '../01_Users/0102_authorization/010201_index/auth.queries';
+
+/**@Subscription_plans */
+import SubscriptionPlans from '../01_Users/0103_subscription/010301_index/subscription.queries'
+import { ISubscriptionPlans } from '../../Models/SubscriptionPlans.model'
 
 export {
     /**@Users */
@@ -37,5 +41,9 @@ export {
     ISessions,
 
     /**@States */
-    IStates
+    IStates,
+
+    /**@Subscription_plans */
+    SubscriptionPlans,
+    ISubscriptionPlans
 }

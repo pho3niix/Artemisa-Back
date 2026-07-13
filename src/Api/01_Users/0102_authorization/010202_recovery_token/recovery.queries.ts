@@ -1,4 +1,4 @@
-import RecoveryToken, { IRecoveryToken } from '../../../../Models/RecoveryToken.model';
+import RecoveryToken, { IRecoveryToken } from '../../../../Models/Recovery_token.model';
 import { IUsers } from '../../../../Models/Users.model';
 import IndexServices from '../../../../Services/Index.services';
 import MailServices from '../../../../Services/Mailer.services';

@@ -1,29 +1,29 @@
 import Db from './Db.config';
-import ChildrenFiles from "../Models/ChildrenFiles.model";
-import ParentFiles from "../Models/ParentFiles.model";
+import ChildrenFiles from "../Models/Children_files.model";
+import ParentFiles from "../Models/Parent_files.model";
 import Reception from "../Models/Reception.model";
-import ReceptionType from "../Models/ReceptionType.model";
+import ReceptionType from "../Models/Reception_type.model";
 import Parents from "../Models/Parents.model";
 import Relationship from "../Models/Relationship.model";
-import RelationshipType from "../Models/RelationshipType.model";
+import RelationshipType from "../Models/Relationship_type.model";
 import Children from "../Models/Children.model";
-import SchedulePlans from "../Models/SchedulePlans.model";
-import TeacherFiles from "../Models/TeacherFiles.model";
-import TeacherGroups from "../Models/TeacherGroups.model";
+import SchedulePlans from "../Models/Schedule_plans.model";
+import TeacherFiles from "../Models/Teacher_files.model";
+import TeacherGroups from "../Models/Teacher_groups.model";
 import Teachers from "../Models/Teachers.model";
 import Groups from "../Models/Groups.model";
-import MedicalServiceFiles from "../Models/MedicalServiceFiles.model";
-import MedicalService from "../Models/MedicalService.model";
-import BranchesFiles from "../Models/BranchesFiles.model";
-import BranchesTypeFiles from "../Models/BranchesTypeFiles.model";
+import MedicalServiceFiles from "../Models/Medical_service_files.model";
+import MedicalService from "../Models/Medical_service.model";
+import BranchesFiles from "../Models/Branches_files.model";
+import BranchesTypeFiles from "../Models/Branches_type_files.model";
 import Branches from "../Models/Branches.model";
 import Institutions from "../Models/Institutions.model";
 import States from "../Models/States.model";
-import RecoveryToken from "../Models/RecoveryToken.model";
+import RecoveryToken from "../Models/Recovery_token.model";
 import Sessions from "../Models/Sessions.model";
 import Users from "../Models/Users.model";
 import Principals from '../Models/Principals.model';
-import Plans from '../Models/Plans.model';
+import SubscriptionPlans from '../Models/SubscriptionPlans.model';
 
 /**@RecoveryToken */
 RecoveryToken.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId' });
@@ -33,7 +33,7 @@ Sessions.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId', as: 'User
 
 /**@Principals */
 Principals.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'PrincipalId', as: 'Users' });
-Principals.belongsTo(Plans, { targetKey: 'PlanId', foreignKey: 'PlanId', as: 'Plans' });
+Principals.belongsTo(SubscriptionPlans, { targetKey: 'PlanId', foreignKey: 'PlanId', as: 'SubscriptionPlans' });
 
 function Migrations() {
 	return (async () => {
@@ -64,7 +64,7 @@ function Migrations() {
 		console.log('Reception', Reception == Db.models.Reception);
 		console.log('ParentFiles', ParentFiles == Db.models.ParentFiles);
 		console.log('ChildrenFiles', ChildrenFiles == Db.models.ChildrenFiles);
-		console.log('Plans', Plans == Db.models.Plans);
+		console.log('SubscriptionPlans', SubscriptionPlans == Db.models.SubscriptionPlans);
 		console.log('Principals', Principals == Db.models.Principals);
 
 		console.log('Migration completed.');

@@ -193,5 +193,29 @@ export default {
             sp: "Token de verificación.",
             en: "Recovery token."
         }
+    },
+    SubscriptionPlans: {
+        planExist: {
+            sp: 'El plan que intenta registrar ya existe, por favor trate con uno diferente.',
+            en: "The plan you're trying to create is already exists, please try with a different one."
+        },
+        created: {
+            sp: "El plan ha sido registrado con éxito.",
+            en: "The subscription plan was successfully created."
+        },
+        update: {
+            sp: 'El plan por id ha sido actualizado con éxito.',
+            en: 'The specific plan has been successfully updated.'
+        },
+        getById: {
+            success: {
+                sp: 'Plan de suscripción mostrado con éxito.',
+                en: 'Subscription plan successfully displayed.'
+            },
+            notFound: {
+                sp: 'El plan específico no existe.',
+                en: 'The specific plan does not exist.'
+            }
+        }
     }
 };

@@ -1,5 +1,6 @@
 import Users, { IUsers } from '../../../Models/Users.model';
 import Principals, { IPrincipals } from '../../../Models/Principals.model';
+import SubscriptionPlans, { ISubscriptionPlans } from '../../../Models/SubscriptionPlans.model';
 import Services, { IFilters, IPage } from '../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
 import AuthServices from '../../../Services/Auth.services';
@@ -14,6 +15,11 @@ export interface IUpdate {
     LastName: IUsers['LastName'];
     PhoneNumber: IUsers['PhoneNumber'];
 }
+
+// interface IFindOne {
+//     PrincipalId: IUsers['UserId'];
+//     PlanId: ISubscriptionPlans['PlanId']
+// }
 
 export interface ISave {
     Name: IUsers['Name'];
@@ -133,6 +139,36 @@ class Queries extends Structures {
             PlanId
         })
     }
+
+    // public async GetPlanByPrincipal({
+    //     PlanId,
+    //     PrincipalId
+    // }: IFindOne): Promise<IList[]> {
+    //     const PlansList: any = await SubscriptionPlans.findOne({
+    //         where: {
+    //             Active: true,
+    //             PlanId,
+    //             '$Principal->User.UserId$': PrincipalId
+    //         },
+    //         attributes: ['PlanId', 'Name', 'Code', 'Description', 'Price', 'ChildrenCapacity'],
+    //         include: [
+    //             {
+    //                 model: Principals,
+    //                 as: 'Principal',
+    //                 attributes: ['PrincipalId'],
+    //                 include: [
+    //                     {
+    //                         model: Users,
+    //                         as: 'User',
+    //                         attributes: ['UserId', 'Name', 'LastName', 'Email']
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     })
+
+    //     return
+    // }
 
     public async UpdateUserById({
         UserId,

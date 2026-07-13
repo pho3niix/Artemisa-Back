@@ -8,9 +8,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     expose:
-      - 5440
+      - 5432
     ports:
-      - 5440:5432
+      - 5432:5432
     volumes:
       - dbdata:/var/lib/postgresql/data
     restart: unless-stopped
@@ -45,10 +45,10 @@ services:
       sh -c "npm run db:migrate
       && node dist/Server.js"
     ports:
-      - "3001:3001"
+      - "3000:3000"
     environment:
       NODE_ENV: local
-      NODE_PORT: 3001
+      NODE_PORT: 3000
       HOME_PAGE: http://localhost:3000
       PG_CONNECTION_LOCAL: postgres://postgres:postgres@db_local:5432/postgres
     env_file:
@@ -57,6 +57,7 @@ services:
       - db_local
     networks:
       - local_net
+      - proxy_net
 
   development:
     image: dev_img
@@ -72,10 +73,14 @@ services:
       - NODE_ENV=development
       - NODE_PORT=3001
       - HOME_PAGE=http://localhost:3001
+      - PG_CONNECTION_DEVELOPMENT=postgres://postgres:postgres@db_local:5432/postgres
     env_file:
       - .env
+    depends_on:
+      - db_local
     networks:
       - proxy_net
+      - local_net
 
   testing:
     image: test_img
@@ -123,9 +128,9 @@ services:
       - "80:80"
     depends_on:
       - development
-      - testing
-      - preproduction
-      - production
+    #   - testing
+    #   - preproduction
+    #   - production
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/timezone:/etc/timezone:ro
