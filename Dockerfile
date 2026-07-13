@@ -1,4 +1,4 @@
-FROM node:16.17.0-alpine
+FROM node:24.13.0-alpine3.22
 
 WORKDIR /usr/app
 
@@ -11,6 +11,6 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["npm", "start"]

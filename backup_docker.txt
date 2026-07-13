@@ -1,0 +1,145 @@
+version: '3.8'
+
+services:
+  db_local:
+    image: postgres:14.7
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - local_net
+
+  production:
+    image: prod_img
+    build: .
+    restart: unless-stopped
+    container_name: production
+    command: >
+      sh -c "npm run db:migrate
+      && node dist/Server.js"
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NODE_PORT=3000
+      - HOME_PAGE=http://localhost:3000
+    env_file:
+      - .env
+    networks:
+      - proxy_net
+
+  local:
+    image: local_img
+    build: .
+    restart: unless-stopped
+    container_name: local
+    command: >
+      sh -c "npm run db:migrate
+      && node dist/Server.js"
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: local
+      NODE_PORT: 3000
+      HOME_PAGE: http://localhost:3000
+      PG_CONNECTION_LOCAL: postgres://postgres:postgres@db_local:5432/postgres
+    env_file:
+      - .env
+    depends_on:
+      - db_local
+    networks:
+      - local_net
+      - proxy_net
+
+  development:
+    image: node:24.13.0-alpine3.22
+    build: .
+    restart: unless-stopped
+    container_name: development
+    command: >
+      sh -c "npm run db:migrate
+      && node dist/Server.js"
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - NODE_PORT=3001
+      - HOME_PAGE=http://localhost:3001
+      - PG_CONNECTION_DEVELOPMENT=postgres://postgres:postgres@db_local:5432/postgres
+    env_file:
+      - .env
+    networks:
+      - proxy_net
+
+  testing:
+    image: test_img
+    build: .
+    restart: unless-stopped
+    container_name: testing
+    command: >
+      sh -c "npm run db:migrate
+      && node dist/Server.js"
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=testing
+      - NODE_PORT=3002
+      - HOME_PAGE=http://localhost:3002
+    env_file:
+      - .env
+    networks:
+      - proxy_net
+
+  preproduction:
+    image: alfa_img
+    build: .
+    restart: unless-stopped
+    container_name: preproduction
+    command: >
+      sh -c "npm run db:migrate
+      && node dist/Server.js"
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=preproduction
+      - NODE_PORT=3003
+      - HOME_PAGE=http://localhost:3003
+    env_file:
+      - .env
+    networks:
+      - proxy_net
+
+  proxy_reverse:
+    image: nginx:alpine
+    restart: unless-stopped
+    container_name: proxy_reverse
+    ports:
+      - "80:80"
+    depends_on:
+      - development
+    #   - testing
+    #   - preproduction
+    #   - production
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy_net
+
+volumes:
+  dbdata:
+      
+networks:
+  proxy_net:
+    driver: bridge
+  local_net:
+    driver: bridge
