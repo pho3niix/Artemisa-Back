@@ -1,5 +1,6 @@
 require("dotenv").config({ path: ".env" });
 import { Sequelize } from 'sequelize';
+import { Pool } from 'pg';
 
 const Environments = {
     preproduction: process.env.PG_CONNECTION_ALPHA,
@@ -10,22 +11,79 @@ const Environments = {
     supertest: process.env.PG_CONNECTION_SUPERTEST
 };
 
-const Default = process.env.PG_CONNECTION_DEVELOPMENT;
+let sequelize = null;
 
-const sequelize = new Sequelize(Environments[process.env.NODE_ENV] ?? Default, {
-    logging: process.env.NODE_ENV.includes('local'),
-    dialect: 'postgres'
-});
+switch (process.env.NODE_ENV) {
+    case 'development' || 'preproduction' || 'production' || 'testing' || 'supertest':
+        sequelize = new Sequelize(Environments[process.env.NODE_ENV], {
+            logging: false,
+            dialect: 'postgres',
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false // Permite conectar a AWS RDS sin validar certificado estricto
+                }
+            }
+        });
+        break;
+    case 'local':
+        sequelize = new Sequelize(Environments[process.env.NODE_ENV], {
+            logging: true,
+            dialect: 'postgres'
+        });
+        break;
+}
 
 (async () => {
     try {
-        await sequelize.authenticate()
-        return console.log('Database is running and ready to work.')
+        await sequelize.authenticate();
+        return console.log('Database is running and ready to work.');
     } catch (error) {
-        console.log(error)
-        return console.log('Unable to connect database.')
+        return console.log('Unable to connect database.');
     }
-})();
+});
+
+let pool = null;
+
+switch (process.env.ENV) {
+    case 'development' || 'preproduction' || 'production' || 'testing' || 'supertest':
+        pool = new Pool({
+            connectionString: Environments[process.env.NODE_ENV],
+            ssl: {
+                rejectUnauthorized: false
+            }
+        });
+        break;
+    case 'local':
+        pool = new Pool({
+            connectionString: Environments[process.env.NODE_ENV]
+        });
+        break;
+}
+
+async function query(text: string) {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            console.log('Executing query:', text)
+
+            const Client = await pool.connect();
+
+            await Client.query('set search_path to "public"');
+
+            const Response = await Client.query(text);
+
+            resolve(Response.rows)
+
+            Client.release();
+        } catch (error) {
+            reject({
+                message: error.message,
+                error
+            });
+        }
+    })
+}
 
 export function SelectJsonData(ParsedJson: Array<any>, Elements: Array<string>) {
     const Stringify = JSON.stringify(ParsedJson);

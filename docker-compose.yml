@@ -1,25 +1,26 @@
+version: '3.8'
+
 services:
   local:
     image: node:24.13.0-alpine3.22
     build: .
-    restart: unless-stopped
-    container_name: local
     command: >
       sh -c "npm run db:migrate
       && node dist/Server.js"
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: local
-      NODE_PORT: 3000
-      HOME_PAGE: http://localhost:3000
-      PG_CONNECTION_LOCAL: postgres://postgres:postgres@db_local:5432/postgres
+      - PG_CONNECTION_LOCAL=postgres://postgres:postgres@db_local:5432/postgres
     env_file:
       - .env
     depends_on:
       - db_local
     networks:
-      - proxy_net
+      - local_net
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   db_local:
     image: postgres:17.7
@@ -34,31 +35,31 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data
     restart: always
+    networks:
+      - local_net
 
   development:
-    image: node:24.13.0-alpine3.22
-    build: .
-    restart: unless-stopped
     container_name: development
+    build: .
+    image: node:24.13.0-alpine3.22
     command: >
       sh -c "npm run db:migrate
       && node dist/Server.js"
     ports:
       - "3001:3001"
-    environment:
-      - NODE_ENV=development
-      - NODE_PORT=3001
-      - HOME_PAGE=http://localhost:3001
-      - PG_CONNECTION_DEVELOPMENT=postgres://postgres:postgres@db_local:5440/postgres
     env_file:
       - .env
     networks:
       - proxy_net
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/dist
+      - /app/node_modules
 
   proxy_reverse:
     image: nginx:alpine
-    restart: unless-stopped
-    container_name: proxy_reverse
+    restart: always
     ports:
       - "80:80"
     depends_on:
