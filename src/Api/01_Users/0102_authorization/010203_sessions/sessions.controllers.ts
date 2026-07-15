@@ -34,6 +34,23 @@ class Controllers {
             Expiration: 30
         });
 
+        const maxAge = 60 * 60 * 2; // 1 día en segundos
+        
+        const isProduction = process.env.NODE_ENV === "production";
+
+        // Construimos el string del header Set-Cookie
+        const cookieString = [
+            `session=${Session}`,
+            `Max-Age=${maxAge}`,
+            `Path=/`,
+            `HttpOnly`, // 🔒 Evita que JavaScript lea el token en el cliente
+            `SameSite=Lax`,
+            isProduction ? `Secure` : "" // Solo requiere HTTPS en producción
+        ].filter(Boolean).join('; ');
+
+        // Inyectamos la cabecera en la respuesta HTTP
+        res.setHeader('Set-Cookie', cookieString);
+
         return res.status(200).json({
             message: Messages.Auth.login.welcome(User.FullName, Lang),
             status: true,

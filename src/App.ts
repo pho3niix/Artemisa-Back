@@ -117,13 +117,12 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
 });
 
 /**Cors headers */
-app.use(function (req: Request, res: Response, next: NextFunction) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    return next();
-});
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5003', // El puerto de tu frontend
+    credentials: true,               // ESTO ES LO QUE HACE QUE LA COOKIE SE GUARDE
+};
+
+app.use(cors(corsOptions));
 
 /**Start Route */
 app.get(`${Environment}`, (req: Request, res: Response, next: NextFunction): object => {

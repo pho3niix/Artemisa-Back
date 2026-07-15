@@ -6,7 +6,7 @@ services:
     build: .
     command: >
       sh -c "npm run db:migrate
-      && node dist/Server.js"
+      && npm run dev"
     ports:
       - "3000:3000"
     environment:
@@ -20,6 +20,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
+      - /app/dist
       - /app/node_modules
 
   db_local:
