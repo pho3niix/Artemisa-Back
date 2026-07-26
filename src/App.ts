@@ -118,7 +118,7 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
 
 /**Cors headers */
 const corsOptions = {
-    origin: 'http://localhost:5003', // El puerto de tu frontend
+    origin: 'http://localhost:3001', // El puerto de tu frontend
     credentials: true,               // ESTO ES LO QUE HACE QUE LA COOKIE SE GUARDE
 };
 
