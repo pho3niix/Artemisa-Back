@@ -11,12 +11,12 @@ export const OnlySuperAdmin = () => async (req: Request, res: Response, next: Ne
     } = res.locals;
 
     const {
-        authorization
+        cookie
     } = req.headers;
 
-    if (!authorization) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
+    if (!cookie) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
 
-    const Bearer = authorization.split(' ')[1];
+    const Bearer = cookie.split('=')[1];
 
     const Verify: any = JWT.verify(Bearer, process.env.JWT_SECRET);
 
@@ -49,16 +49,16 @@ export const OwnUser = () => async (req: Request, res: Response, next: NextFunct
     } = res.locals;
 
     const {
-        authorization
+        cookie
     } = req.headers;
 
     const {
         UserId
     } = req.params
 
-    if (!authorization) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
+    if (!cookie) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
 
-    const Bearer = authorization.split(' ')[1];
+    const Bearer = cookie.split('=')[1];
 
     const Verify: any = JWT.verify(Bearer, process.env.JWT_SECRET);
 
@@ -75,16 +75,16 @@ export const NotOwnUser = () => async (req: Request, res: Response, next: NextFu
     } = res.locals;
 
     const {
-        authorization
+        cookie
     } = req.headers;
 
     const {
         UserId
     } = req.params;
 
-    if (!authorization) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
+    if (!cookie) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
 
-    const Bearer = authorization.split(' ')[1];
+    const Bearer = cookie.split('=')[1];
 
     const Verify: any = JWT.verify(Bearer, process.env.JWT_SECRET);
 

@@ -35,16 +35,16 @@ async function VerifyExpireToken(Session: ISessions) {
 
 export const CheckSession = () => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const {
-        authorization
+        cookie
     } = req.headers;
 
     const {
         Lang
     } = res.locals;
 
-    if (!authorization) return next(new MyError(401, UtilMessages.Middleware.undefinedToken[Lang]));
+    if (!cookie) return next(new MyError(401, UtilMessages.Middleware.undefinedToken[Lang]));
 
-    const Bearer = authorization.split(' ')[1];
+    const Bearer = cookie.split('=')[1];
 
     const TokenData: any = jwt.verify(Bearer, process.env.JWT_SECRET);
 
