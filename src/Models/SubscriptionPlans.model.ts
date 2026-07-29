@@ -8,6 +8,7 @@ export interface ISubscriptionPlans {
     Description: string;
     Price: number;
     ChildrenCapacity: number;
+    BranchLimit: number;
     Active?: boolean;
     UpdatedAt?: Date;
     CreatedAt?: Date;
@@ -20,6 +21,7 @@ class SubscriptionPlans extends Model<InferAttributes<SubscriptionPlans>, InferC
     declare Description: string;
     declare Price: number;
     declare ChildrenCapacity: number;
+    declare BranchLimit: number;
     declare Active: boolean;
     declare UpdatedAt: Date;
     declare CreatedAt: Date;
@@ -46,10 +48,14 @@ SubscriptionPlans.init(
             allowNull: false
         },
         Price: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: false
         },
         ChildrenCapacity: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        BranchLimit: {
             type: DataTypes.INTEGER,
             allowNull: false
         },

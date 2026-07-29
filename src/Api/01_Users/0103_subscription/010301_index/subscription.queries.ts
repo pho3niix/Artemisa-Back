@@ -11,6 +11,7 @@ export interface IBase {
     Description: ISubscriptionPlans['Description'];
     Price: ISubscriptionPlans['Price'];
     ChildrenCapacity: ISubscriptionPlans['ChildrenCapacity'];
+    BranchLimit: ISubscriptionPlans['BranchLimit'];
 }
 
 export interface IUpdate extends IBase {
@@ -64,14 +65,16 @@ class Queries extends Structures {
         Code,
         Description,
         Price,
-        ChildrenCapacity
+        ChildrenCapacity,
+        BranchLimit
     }: IBase): Promise<IGetById> {
         const Plan = await SubscriptionPlans.create({
             Name,
             Code,
             Description,
             Price,
-            ChildrenCapacity
+            ChildrenCapacity,
+            BranchLimit
         })
 
         return this.GetPlanById({ PlanId: Plan.PlanId })
@@ -85,7 +88,7 @@ class Queries extends Structures {
                 Code,
                 Active: true
             },
-            attributes: ['PlanId', 'Code', 'Name']
+            attributes: ['PlanId', 'Name', 'Code', 'Description', 'Price', 'ChildrenCapacity', 'BranchLimit']
         })
     }
 
@@ -97,7 +100,7 @@ class Queries extends Structures {
                 PlanId,
                 Active: true
             },
-            attributes: ['PlanId', 'Name', 'Code', 'Description', 'Price', 'ChildrenCapacity']
+            attributes: ['PlanId', 'Name', 'Code', 'Description', 'Price', 'ChildrenCapacity', 'BranchLimit']
         })
     }
 
@@ -108,6 +111,7 @@ class Queries extends Structures {
         Description,
         Price,
         ChildrenCapacity,
+        BranchLimit
     }: IUpdate): Promise<IGetById> {
         await SubscriptionPlans.update({
             Name,
@@ -115,6 +119,7 @@ class Queries extends Structures {
             Description,
             Price,
             ChildrenCapacity,
+            BranchLimit
         }, {
             where: {
                 PlanId,
