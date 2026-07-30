@@ -137,6 +137,10 @@ export default {
             ChildrenCapacity: {
                 sp: 'Por favor, ingresa un valor númerico valido para la capacidad de niños por plan.',
                 en: 'Please, enter a correct numeric value for children capacity by plan.'
+            },
+            BranchLimit: {
+                sp: 'Por favor, ingresa un valor númerico valido para el limite de sucursales por plan.',
+                en: 'Please, enter a correct numeric value for branch limit by plan.'
             }
         },
         Users: {

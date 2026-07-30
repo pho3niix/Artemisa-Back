@@ -15,7 +15,8 @@ class Rules {
             Code: Validations.RequiredStringLength('Plans Code', 10),
             Description: Validations.RequiredStringLength('Plans Description', 255),
             Price: Validations.RequiredNumber('Plans Price'),
-            ChildrenCapacity: Validations.RequiredNumber('Plans ChildrenCapacity')
+            ChildrenCapacity: Validations.RequiredNumber('Plans ChildrenCapacity'),
+            BranchLimit: Validations.RequiredNumber('Plans BranchLimit') 
         })
         this.PlanParams = Validations.JoiObjectKeys({
             PlanId: Validations.RequiredUUID('Plans PlanId')

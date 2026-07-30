@@ -26,7 +26,6 @@ export default () => async (err: IErrHandler, req: Request, res: Response, next:
         "———————————————————————————————————————————————————————————————————————————"
     );
     if (err.name === "CustomError") {
-        console.log(err);
         let {
             Password,
             NewPassword,
