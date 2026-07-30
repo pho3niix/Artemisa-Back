@@ -7,6 +7,7 @@ import { celebrate } from 'celebrate';
 import Language from '../../Middlewares/Language.mw';
 import { LanguageParams } from '../../Middlewares/Validations.mw';
 import { CheckSession } from '../../Middlewares/Session.mw';
+import { OnlyDevTeam } from '../../Middlewares/Permissions.mw';
 
 function BaseRoute(env: string, module: string): string {
     return `${env}/api/v1/:Lang/${module}`;
@@ -17,7 +18,8 @@ import Authorization from '../01_Users/0102_authorization/010201_index/auth.rout
 import Sessions from '../01_Users/0102_authorization/010203_sessions/sessions.routes';
 import Recovery from '../01_Users/0102_authorization/010202_recovery_token/recovery.routes';
 import Users from '../01_Users/0101_index/users.routes';
-import SubscriptionsPlans from '../01_Users/0103_subscription/010301_index/subscription.routes'
+import Plans from '../01_Users/0103_subscription/010301_index/subscription.routes';
+import Principals from '../01_Users/0104_principals/010401_index/principals.routes';
 
 export default (app: Application, env: string): void => {
 
@@ -56,9 +58,19 @@ export default (app: Application, env: string): void => {
 
     /**@Subscriptions_plans */
     app.use(
-        BaseRoute(env, 'subscriptions'),
+        BaseRoute(env, 'plans'),
         celebrate({ params: LanguageParams }),
         aH(Language()),
-        SubscriptionsPlans
+        aH(OnlyDevTeam()),
+        Plans
     )
+
+    /**@Principals */
+    app.use(
+        BaseRoute(env, 'principals'),
+        celebrate({ params: LanguageParams }),
+        aH(Language()),
+        aH(CheckSession()),
+        Principals
+    );
 }

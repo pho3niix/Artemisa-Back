@@ -3,6 +3,7 @@ import Users from '../01_Users/0101_index/users.queries';
 import { IUsers } from '../../Models/Users.model';
 
 /**@Principals */
+import Principals from '../01_Users/0104_principals/010401_index/principals.queries';
 import { IPrincipals } from '../../Models/Principals.model';
 
 /**@Sessions */
@@ -45,5 +46,9 @@ export {
 
     /**@Subscription_plans */
     SubscriptionPlans,
-    ISubscriptionPlans
+    ISubscriptionPlans,
+
+    /**@Principals */
+    Principals,
+    IPrincipals
 }

@@ -17,7 +17,8 @@ class Controllers {
             Code,
             Description,
             Price,
-            ChildrenCapacity
+            ChildrenCapacity,
+            BranchLimit
         }: IBase = req.body;
 
         const {
@@ -33,12 +34,12 @@ class Controllers {
             Code,
             Description,
             Price,
-            ChildrenCapacity
+            ChildrenCapacity,
+            BranchLimit
         });
 
         return res.status(200).json({
             message: Messages.SubscriptionPlans.created[Lang],
-            status: true,
             results: NewPlan
         })
     }
@@ -53,7 +54,8 @@ class Controllers {
             Code,
             Description,
             Price,
-            ChildrenCapacity
+            ChildrenCapacity,
+            BranchLimit
         } = req.body;
 
         const {
@@ -70,12 +72,12 @@ class Controllers {
             Description,
             Price,
             ChildrenCapacity,
-            PlanId
+            PlanId,
+            BranchLimit
         })
 
         return res.status(200).json({
             message: Messages.SubscriptionPlans.update[Lang],
-            status: true,
             results: NewPlan
         })
     }

@@ -53,7 +53,6 @@ class Controllers {
 
         return res.status(200).json({
             message: Messages.Auth.login.welcome(User.FullName, Lang),
-            status: true,
             results: {
                 UserId: User.UserId,
                 Email: User.Email,
@@ -83,7 +82,7 @@ class Controllers {
 
         return res.status(200).json({
             message: Messages.Auth.session.success[Lang],
-            status: true
+            results: {}
         })
     }
 }

@@ -25,7 +25,7 @@ class Controllers {
 
         return res.status(200).json({
             message: Messages.RecoveryPasswords.success[Lang],
-            status: true
+            results: {}
         })
     }
 
@@ -61,7 +61,6 @@ class Controllers {
 
         return res.status(200).json({
             message: Messages.RecoveryPasswords.passwordChanged[Lang],
-            status: true,
             results: {
                 redirect: process.env.HOME_PAGE
             }

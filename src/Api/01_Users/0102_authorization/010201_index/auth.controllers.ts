@@ -42,7 +42,6 @@ class Controllers {
 
         return res.status(200).json({
             message: Messages.Users.created[Lang],
-            status: true,
             results: NewUser
         });
     }

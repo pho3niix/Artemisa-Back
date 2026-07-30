@@ -36,6 +36,8 @@ export const OnlyDevTeam = () => async (req: Request, res: Response, next: NextF
 
     const api_key = req.headers['x-api-key'];
 
+    console.log(api_key);
+
     if (!api_key) return next(new MyError(401, UtilMessage.Middleware.undefinedToken[Lang]));
 
     if (process.env.SECRET_DEV_KEY != api_key) return next(new MyError(403, UtilMessage.Middleware.accessDenied[Lang]));

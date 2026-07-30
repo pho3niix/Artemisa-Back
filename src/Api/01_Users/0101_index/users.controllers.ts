@@ -35,7 +35,6 @@ class Controllers {
 
         return res.status(200).json({
             message: Messages.Users.update[Lang],
-            status: true,
             results: NewUser
         })
     }
@@ -55,7 +54,6 @@ class Controllers {
 
         return res.status(200).json({
             message: Messages.Users.getById.success[Lang],
-            status: true,
             results: User
         })
     }
