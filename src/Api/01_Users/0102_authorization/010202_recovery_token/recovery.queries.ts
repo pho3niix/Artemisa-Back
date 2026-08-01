@@ -52,13 +52,13 @@ class Queries extends Structures {
 
         const [Minutes, Hours, Seconds] = [ExpiredDate.getMinutes().toString(), ExpiredDate.getHours().toString(), ExpiredDate.getSeconds().toString()];
 
-        MailServices.emit('SendRawEmail', {
-            Emails: [User.Email],
-            Data: {
-                Message: `Por favor ingresa al siguiente enlace para actualizar tu contraseña: ${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}/password-recovery?Token=${Token}&Host=${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}&Lang=${Lang}`,
-                Subject: 'Recuperación de contraseña'
-            }
-        })
+        // MailServices.emit('SendRawEmail', {
+        //     Emails: [User.Email],
+        //     Data: {
+        //         Message: `Por favor ingresa al siguiente enlace para actualizar tu contraseña: ${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}/password-recovery?Token=${Token}&Host=${process.env.SERVER}${IndexServices.GetEnvironment(process.env.NODE_ENV)}&Lang=${Lang}`,
+        //         Subject: 'Recuperación de contraseña'
+        //     }
+        // })
 
         IndexServices.ScheduleTask({
             Minutes,

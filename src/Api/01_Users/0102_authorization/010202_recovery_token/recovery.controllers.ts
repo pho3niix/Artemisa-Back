@@ -57,7 +57,9 @@ class Controllers {
 
         await Sessions.DeleteAllSessionsByUser({ UserId: QueryToken.UserId });
 
-        await RecoveryToken.DeleteAllTokenByUserId({ UserId: QueryToken.UserId })
+        await RecoveryToken.DeleteAllTokenByUserId({ UserId: QueryToken.UserId });
+
+        await Users.ChangePlatformAccess({ UserId: QueryToken.UserId, Access: true });
 
         return res.status(200).json({
             message: Messages.RecoveryPasswords.passwordChanged[Lang],

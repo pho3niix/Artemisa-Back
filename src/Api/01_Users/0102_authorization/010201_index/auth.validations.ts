@@ -14,8 +14,7 @@ class Rules {
             LastName: Validations.RequiredStringLength('Users Lastname', 50),
             PhoneNumber: Validations.RequiredCorrectPhoneNumber('Users PhoneNumber'),
             Email: Validations.RequiredCorrectEmail('Users Email'),
-            Password: Validations.CorrectPassword('Users Password'),
-            ConfirmPassword: Validations.CorrectPassword('Users Password')
+            PlanId: Validations.RequiredUUID('Plans PlanId')
         });
         this.UserParams = Validations.JoiObjectKeys({
             UserId: Validations.RequiredUUID('Users UserId')

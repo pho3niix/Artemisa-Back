@@ -16,6 +16,8 @@ class Controllers {
         } = res.locals
 
         const Principal = await Principals.GetPrincipalById({ PrincipalId });
+        
+        console.log("here ========================>")
 
         if (!Principal) return next(new MyError(404, Messages['Users']['getById']['notFound'][Lang]));
 

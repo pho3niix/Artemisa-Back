@@ -1,7 +1,9 @@
 import Users, { IUsers } from '../../../../Models/Users.model';
+import Plans, { ISubscriptionPlans } from '../../../../Models/SubscriptionPlans.model';
 import Services, { IFilters, IPage } from '../../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
 import AuthServices from '../../../../Services/Auth.services';
+import IndexServices from '../../../../Services/Index.services';
 import Mailer from '../../../../Services/Mailer.services';
 
 export interface ISave {
@@ -9,8 +11,7 @@ export interface ISave {
     LastName: string;
     Email: string;
     PhoneNumber: string;
-    Password: string;
-    ConfirmPassword?: string;
+    PlanId: ISubscriptionPlans['PlanId'];
 }
 
 class Structures {
@@ -34,18 +35,15 @@ class Queries extends Structures {
         Name,
         LastName,
         Email,
-        Password,
         PhoneNumber
     }: ISave): Promise<IUsers> {
         const User = await Users.create({
             Name,
             LastName,
             Email,
-            Password: AuthServices.HashPassword(Password),
+            Password: IndexServices.RandomPassword(10).hash,
             PhoneNumber
         })
-
-        this.WelcomeMessage({ User });
 
         return await Users.findOne({
             where: { UserId: User.UserId },

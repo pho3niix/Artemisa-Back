@@ -1,9 +1,11 @@
-import { Authorization, Users } from '../../../00_Index/Index.models';
+import { Authorization, Users, RecoveryToken } from '../../../00_Index/Index.models';
 import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
 import { ISave } from './auth.queries';
 import AuthServices from '../../../../Services/Auth.services'
+import IndexServices from '../../../../Services/Index.services';
+import cron from 'node-cron';
 
 class Controllers {
     constructor() { }
@@ -15,30 +17,27 @@ class Controllers {
 
         const {
             Email,
-            Password,
             PhoneNumber,
             Name,
             LastName,
-            ConfirmPassword
+            PlanId
         }: ISave = req.body;
 
         const User = await Users.GetUserByEmail({ Email });
 
         if (User) return next(new MyError(409, Messages.Auth.signup.userExist[Lang]));
 
-        const ComparePassword = AuthServices.ConfirmPassword(Password, ConfirmPassword);
-
-        if (ComparePassword) return next(new MyError(401, Messages.Auth.matchPasswords.dontMatch[Lang]));
-
         const NewUser = await Authorization.SignUp({
             Name,
             LastName,
             Email,
             PhoneNumber,
-            Password
+            PlanId
         });
 
-        await Users.CreatePrincipal({ PrincipalId: NewUser.UserId, PlanId: null });
+        await Users.CreatePrincipal({ PrincipalId: NewUser.UserId, PlanId });
+
+        await RecoveryToken.SendRecoveryToken({ User: NewUser, Lang: 'sp', Expiration: 15 });
 
         return res.status(200).json({
             message: Messages.Users.created[Lang],
