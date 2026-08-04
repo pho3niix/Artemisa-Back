@@ -70,16 +70,17 @@ class Queries extends Structures {
     }: { PrincipalId: IPrincipals['PrincipalId'] }): Promise<IPlanByPrincipal> {
         const Plan: any = await Principals.findOne({
             where: {
-                PrincipalId
+                PrincipalId,
             },
+            attributes: ['Plans.PlanId', 'Plans.Name', 'Plans.Code', 'Plans.Description', 'Plans.ChildrenCapacity', 'Plans.BranchLimit'],
             include: {
                 model: SubscriptionPlans,
-                as: 'SubscriptionPlan',
+                as: 'Plans',
                 attributes: ['PlanId', 'Name', 'Code', 'Description', 'Price', 'ChildrenCapacity', 'BranchLimit']
             }
         })
 
-        return Plan
+        return Plan ? Plan.Plans : null
     }
 
     public async CreateSubscriptionPlan({

@@ -4,6 +4,7 @@ import Database from '../Config/Db.config';
 /**@Associations */
 import RecoveryToken from './Recovery_token.model';
 import Sessions from './Sessions.model';
+import Principals from './Principals.model';
 
 export interface IUsers {
     UserId: string;
@@ -105,6 +106,16 @@ Users.init(
 );
 
 Users.hasMany(RecoveryToken, { sourceKey: 'UserId', foreignKey: 'UserId' });
-Users.hasMany(Sessions, { sourceKey: 'UserId', foreignKey: 'UserId' })
+Users.hasMany(Sessions, { sourceKey: 'UserId', foreignKey: 'UserId' });
+
+Users.hasOne(Principals, {
+	foreignKey: 'PrincipalId',
+	sourceKey: 'UserId'
+});
+
+Principals.belongsTo(Users, {
+    foreignKey: 'PrincipalId',
+    targetKey: 'UserId'
+});
 
 export default Users;

@@ -1,6 +1,9 @@
 import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from 'sequelize';
 import Database from '../Config/Db.config';
 
+/**@Associations */
+import Principals from './Principals.model';
+
 export interface ISubscriptionPlans {
     PlanId: string;
     Name: string;
@@ -86,5 +89,12 @@ SubscriptionPlans.init(
         sequelize: Database, // passing the `sequelize` instance is required
     },
 );
+
+SubscriptionPlans.hasMany(Principals, {
+	foreignKey: 'PlanId',
+    sourceKey: 'PlanId'
+});
+
+Principals.belongsTo(SubscriptionPlans, { targetKey: 'PlanId', foreignKey: 'PlanId', as: 'Plans' });
 
 export default SubscriptionPlans;

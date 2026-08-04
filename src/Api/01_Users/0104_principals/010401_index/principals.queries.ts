@@ -6,7 +6,7 @@ import { Op, literal } from 'sequelize';
 
 interface IUserPrincipal {
     PrincipalId: Principals['PrincipalId'];
-    Users: IUsers
+    User: IUsers
 }
 
 interface IDetail {
@@ -15,6 +15,8 @@ interface IDetail {
     LastName: IUsers['LastName'],
     Email: IUsers['Email'],
     Active: IUsers['Active']
+    ProfilePicture: IUsers['ProfilePicture']
+    PhoneNumber: IUsers['PhoneNumber']
 }
 
 class Structures {
@@ -24,14 +26,16 @@ class Structures {
 
     }
 
-    protected _Detail(Principal: IUserPrincipal):IDetail {
-        return {
+    protected _Detail(Principal: IUserPrincipal): IDetail {
+        return Principal ? {
             PrincipalId: Principal.PrincipalId,
-            Name: Principal.Users.Name,
-            LastName: Principal.Users.LastName,
-            Email: Principal.Users.Email,
-            Active: Principal.Users.Active
-        }
+            Name: Principal.User.Name,
+            LastName: Principal.User.LastName,
+            Email: Principal.User.Email,
+            Active: Principal.User.Active,
+            ProfilePicture: Principal.User.ProfilePicture,
+            PhoneNumber: Principal.User.PhoneNumber,
+        } : null
     }
 }
 
@@ -44,16 +48,16 @@ class Queries extends Structures {
         const Principal: any = await Principals.findOne({
             where: {
                 PrincipalId,
-                '$Users.Active$': true
+                '$User.Active$': true
             },
             include: {
                 model: Users,
-                as: 'Users',
-                attributes: ['UserId', 'Name', 'LastName', 'Email', 'Active']
+                as: 'User',
+                attributes: ['UserId', 'Name', 'FullName', 'LastName', 'Email', 'ProfilePicture', 'PhoneNumber', 'Active']
             }
         })
 
-        return this._Detail(Principal)
+        return this._Detail(Principal);
     }
 }
 

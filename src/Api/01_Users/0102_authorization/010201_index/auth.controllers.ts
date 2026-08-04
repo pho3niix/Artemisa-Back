@@ -1,4 +1,4 @@
-import { Authorization, Users, RecoveryToken } from '../../../00_Index/Index.models';
+import { Authorization, Users, RecoveryToken, Plans } from '../../../00_Index/Index.models';
 import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
@@ -26,6 +26,10 @@ class Controllers {
         const User = await Users.GetUserByEmail({ Email });
 
         if (User) return next(new MyError(409, Messages.Auth.signup.userExist[Lang]));
+
+        const Plan = await Plans.GetPlanById({ PlanId });
+
+        if (!Plan) return next(new MyError(404, Messages.SubscriptionPlans.getById.notFound[Lang]));
 
         const NewUser = await Authorization.SignUp({
             Name,

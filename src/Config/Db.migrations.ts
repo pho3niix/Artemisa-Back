@@ -31,10 +31,6 @@ RecoveryToken.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId' });
 /**@Sessions */
 Sessions.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId', as: 'Users' });
 
-/**@Principals */
-Principals.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'PrincipalId', as: 'Users' });
-Principals.belongsTo(SubscriptionPlans, { targetKey: 'PlanId', foreignKey: 'PlanId', as: 'SubscriptionPlans' });
-
 function Migrations() {
 	return (async () => {
 		await Db.sync({ alter: true });
@@ -42,6 +38,7 @@ function Migrations() {
 		await Db.query(`CREATE EXTENSION IF NOT EXISTS unaccent`);
 
 		console.log('Users', Users == Db.models.Users);
+		console.log('Principals', Principals == Db.models.Principals);
 		console.log('Sessions', Sessions == Db.models.Sessions);
 		console.log('RecoveryToken', RecoveryToken == Db.models.RecoveryToken);
 		console.log('States', States == Db.models.States);
@@ -65,7 +62,6 @@ function Migrations() {
 		console.log('ParentFiles', ParentFiles == Db.models.ParentFiles);
 		console.log('ChildrenFiles', ChildrenFiles == Db.models.ChildrenFiles);
 		console.log('SubscriptionPlans', SubscriptionPlans == Db.models.SubscriptionPlans);
-		console.log('Principals', Principals == Db.models.Principals);
 
 		console.log('Migration completed.');
 

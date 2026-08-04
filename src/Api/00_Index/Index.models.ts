@@ -22,7 +22,7 @@ import { IRecoveryToken } from '../../Models/Recovery_token.model';
 import Authorization from '../01_Users/0102_authorization/010201_index/auth.queries';
 
 /**@Subscription_plans */
-import SubscriptionPlans from '../01_Users/0103_subscription/010301_index/subscription.queries'
+import Plans from '../01_Users/0103_subscription/010301_index/subscription.queries'
 import { ISubscriptionPlans } from '../../Models/SubscriptionPlans.model'
 
 export {
@@ -45,7 +45,7 @@ export {
     IStates,
 
     /**@Subscription_plans */
-    SubscriptionPlans,
+    Plans,
     ISubscriptionPlans,
 
     /**@Principals */

@@ -1,4 +1,4 @@
-import { SubscriptionPlans, ISubscriptionPlans } from '../../../00_Index/Index.models';
+import { Plans, ISubscriptionPlans } from '../../../00_Index/Index.models';
 import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
@@ -25,11 +25,11 @@ class Controllers {
             Lang
         } = res.locals;
 
-        const Plan = await SubscriptionPlans.GetPlanByCode({ Code });
+        const Plan = await Plans.GetPlanByCode({ Code });
 
         if (Plan) return next(new MyError(409, Messages.SubscriptionPlans.planExist[Lang]));
 
-        const NewPlan = await SubscriptionPlans.CreateSubscriptionPlan({
+        const NewPlan = await Plans.CreateSubscriptionPlan({
             Name,
             Code,
             Description,
@@ -62,11 +62,11 @@ class Controllers {
             PlanId
         } = req.params;
 
-        const Plan = await SubscriptionPlans.GetPlanById({ PlanId });
+        const Plan = await Plans.GetPlanById({ PlanId });
 
         if (!Plan) return next(new MyError(404, Messages.SubscriptionPlans.getById.notFound[Lang]))
 
-        const NewPlan = await SubscriptionPlans.UpdatePlanById({
+        const NewPlan = await Plans.UpdatePlanById({
             Name,
             Code,
             Description,

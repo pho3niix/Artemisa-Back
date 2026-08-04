@@ -1,4 +1,4 @@
-import { Users, Principals, IPrincipals, SubscriptionPlans } from '../../../00_Index/Index.models';
+import { Users, Principals, IPrincipals, Plans } from '../../../00_Index/Index.models';
 import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
@@ -13,19 +13,20 @@ class Controllers {
 
         const {
             Lang
-        } = res.locals
+        } = res.locals;
 
-        const Principal = await Principals.GetPrincipalById({ PrincipalId });
         
-        console.log("here ========================>")
+        const Principal = await Principals.GetPrincipalById({ PrincipalId });
 
         if (!Principal) return next(new MyError(404, Messages['Users']['getById']['notFound'][Lang]));
 
-        const Plans = await SubscriptionPlans.GetPlanByPrincipal({ PrincipalId });
+        const Plan = await Plans.GetPlanByPrincipal({ PrincipalId });
+
+        if(!Plan) return next(new MyError(404, Messages.SubscriptionPlans.getById.notFound[Lang]));
 
         return res.status(200).json({
             message: Messages.SubscriptionPlans.getById.success[Lang],
-            results: Plans
+            results: Plan
         })
     }
 }

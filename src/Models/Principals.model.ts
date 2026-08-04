@@ -1,6 +1,9 @@
 import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from 'sequelize';
 import Database from '../Config/Db.config';
 
+/**@Associations */
+import Users from './Users.model';
+
 export interface IPrincipals {
     PrincipalId: string;
     PlanId?: string;
