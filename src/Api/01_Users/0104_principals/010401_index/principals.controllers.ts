@@ -15,18 +15,21 @@ class Controllers {
             Lang
         } = res.locals;
 
-        
+
         const Principal = await Principals.GetPrincipalById({ PrincipalId });
 
         if (!Principal) return next(new MyError(404, Messages['Users']['getById']['notFound'][Lang]));
 
         const Plan = await Plans.GetPlanByPrincipal({ PrincipalId });
 
-        if(!Plan) return next(new MyError(404, Messages.SubscriptionPlans.getById.notFound[Lang]));
+        if (!Plan) return next(new MyError(404, Messages.SubscriptionPlans.getById.notFound[Lang]));
 
         return res.status(200).json({
             message: Messages.SubscriptionPlans.getById.success[Lang],
-            results: Plan
+            results: {
+                ...Principal,
+                ...{ Plan }
+            }
         })
     }
 }

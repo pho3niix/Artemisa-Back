@@ -53,7 +53,7 @@ class Queries extends Structures {
             include: {
                 model: Users,
                 as: 'User',
-                attributes: ['UserId', 'Name', 'FullName', 'LastName', 'Email', 'ProfilePicture', 'PhoneNumber', 'Active']
+                attributes: ['UserId', 'Name', 'FullName', 'LastName', 'Email', 'ProfilePicture', 'PhoneNumber']
             }
         })
 

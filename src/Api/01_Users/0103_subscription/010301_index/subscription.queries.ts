@@ -71,6 +71,7 @@ class Queries extends Structures {
         const Plan: any = await Principals.findOne({
             where: {
                 PrincipalId,
+                '$Plans.Active$': true
             },
             attributes: ['Plans.PlanId', 'Plans.Name', 'Plans.Code', 'Plans.Description', 'Plans.ChildrenCapacity', 'Plans.BranchLimit'],
             include: {
