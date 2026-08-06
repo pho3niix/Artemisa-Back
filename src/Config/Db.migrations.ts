@@ -31,6 +31,12 @@ RecoveryToken.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId' });
 /**@Sessions */
 Sessions.belongsTo(Users, { targetKey: 'UserId', foreignKey: 'UserId', as: 'Users' });
 
+/**@States */
+States.hasMany(Institutions, {
+    foreignKey: 'StateId',
+    sourceKey: 'StateId'
+});
+
 function Migrations() {
 	return (async () => {
 		await Db.sync({ alter: true });

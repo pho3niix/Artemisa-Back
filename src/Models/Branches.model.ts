@@ -1,17 +1,29 @@
-import {Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey} from 'sequelize';
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from 'sequelize';
 import Database from '../Config/Db.config';
 
+/**@Associations */
+import Institutions from './Institutions.model';
+import Principals from './Principals.model';
+
 export interface IBranches {
-    BranchId: string;
+    InstitutionId: string;
+    PrincipalId: string;
 }
 
 class Branches extends Model<InferAttributes<Branches>, InferCreationAttributes<Branches>>{
-    declare BranchId: string;
+    declare InstitutionId: string;
+    declare PrincipalId: string;
 };
 
 Branches.init(
     {
-        BranchId:{
+        InstitutionId: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            allowNull: false,
+            primaryKey: true
+        },
+        PrincipalId: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -23,7 +35,7 @@ Branches.init(
         indexes: [
             {
                 unique: true,
-                fields: ['BranchId']
+                fields: ['InstitutionId', 'PrincipalId']
             }
         ],
         createdAt: "CreatedAt", // alias createdAt as tCreatedAt

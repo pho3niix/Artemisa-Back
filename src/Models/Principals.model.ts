@@ -2,7 +2,7 @@ import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey 
 import Database from '../Config/Db.config';
 
 /**@Associations */
-import Users from './Users.model';
+import Branches from './Branches.model';
 
 export interface IPrincipals {
     PrincipalId: string;
@@ -41,5 +41,10 @@ Principals.init(
         sequelize: Database, // passing the `sequelize` instance is required
     },
 );
+
+Branches.belongsTo(Principals, {
+    foreignKey: 'PrincipalId',
+    targetKey: 'PrincipalId'
+});
 
 export default Principals;
