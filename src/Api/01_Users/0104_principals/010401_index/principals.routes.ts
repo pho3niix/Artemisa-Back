@@ -7,7 +7,7 @@ import { Permissions } from '../../../00_Index/Index.middlewares';
 const router = Router();
 
 /**@General_Actions */
-router.route('/:PrincipalId')
+router.route('/:PrincipalId/plans')
 .get(
     aH(celebrate({params: Validations.PrincipalParams})),
     aH(Controllers.GetPlanByPrincipal)
