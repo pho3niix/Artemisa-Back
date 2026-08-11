@@ -6,8 +6,8 @@ import Branches from './Branches.model';
 import States from './States.model';
 
 export interface IInstitutions {
-    InstitutionId: string;
-    PublicName: string;
+    InstitutionId?: string;
+    PublicName?: string;
     Email?: string;
     LogoKey?: string;
     PhoneNumber?: string;
@@ -53,7 +53,7 @@ Institutions.init(
         },
         LogoKey: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         PhoneNumber: {
             type: DataTypes.STRING,

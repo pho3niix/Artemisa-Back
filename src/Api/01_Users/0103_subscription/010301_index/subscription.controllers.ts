@@ -2,10 +2,6 @@ import { Plans, ISubscriptionPlans } from '../../../00_Index/Index.models';
 import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
-import AuthServices from '../../../../Services/Auth.services';
-import Validations from '../../../../Utils/ValidationError.util';
-import jwt from 'jsonwebtoken';
-import IndexServices from '../../../../Services/Index.services';
 import { IBase } from './subscription.queries'
 
 class Controllers {

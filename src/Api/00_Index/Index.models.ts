@@ -11,7 +11,7 @@ import Sessions from '../01_Users/0102_authorization/010203_sessions/sessions.qu
 import { ISessions } from '../../Models/Sessions.model';
 
 /**@States */
-// import States from '../02_Locations/0202_states/020201_index/states.queries';
+import States from '../03_Locations/0301_index/locations.queries';
 import { IStates } from '../../Models/States.model';
 
 /**@RecoveryToken */
@@ -23,7 +23,11 @@ import Authorization from '../01_Users/0102_authorization/010201_index/auth.quer
 
 /**@Subscription_plans */
 import Plans from '../01_Users/0103_subscription/010301_index/subscription.queries'
-import { ISubscriptionPlans } from '../../Models/SubscriptionPlans.model'
+import { ISubscriptionPlans } from '../../Models/SubscriptionPlans.model';
+
+/**@Branches */
+import Branches from '../02_Branches/0201_index/Branches.queries';
+import { IBranches } from '../../Models/Branches.model';
 
 export {
     /**@Users */
@@ -43,6 +47,7 @@ export {
 
     /**@States */
     IStates,
+    States,
 
     /**@Subscription_plans */
     Plans,
@@ -50,5 +55,9 @@ export {
 
     /**@Principals */
     Principals,
-    IPrincipals
+    IPrincipals,
+
+    /**@Branches */
+    Branches,
+    IBranches
 }

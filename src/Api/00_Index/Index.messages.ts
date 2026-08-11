@@ -217,5 +217,74 @@ export default {
                 en: 'The specific plan does not exist.'
             }
         }
+    },
+    Locations: {
+        Municipalities: {
+            get: {
+                all: {
+                    sp: "Municipios mostrados con éxito.",
+                    en: "Municipalities displayed sucessfully."
+                },
+                byId: {
+                    notFound: {
+                        sp: "Municipio específico no existe.",
+                        en: "The specific municipality  does not exists."
+                    },
+                    success: {
+                        sp: " específico mostrado con éxito.",
+                        en: "The specific municipality displayed successfully."
+                    }
+                }
+            }
+        },
+        States: {
+            get: {
+                all: {
+                    sp: "Estados por país mostrados con éxito.",
+                    en: "States by country displayed sucessfully."
+                },
+                byId: {
+                    notFound: {
+                        sp: "El estado específico no existe.",
+                        en: "The specific state does not exists."
+                    },
+                    success: {
+                        sp: " específico mostrado con éxito.",
+                        en: "The specific state displayed successfully."
+                    }
+                }
+            }
+        },
+        Countries: {
+            get: {
+                all: {
+                    sp: "Países mostrados con éxito.",
+                    en: "Countries sucessfully displayed."
+                },
+                byId: {
+                    notFound: {
+                        sp: "País específico no existe.",
+                        en: "The specific country does not exists."
+                    },
+                    success: {
+                        sp: "País específico mostrado con éxito.",
+                        en: "The specific country displayed successfully."
+                    }
+                }
+            }
+        }
+    },
+    Branches: {
+        limit: (BranchLimit: number, Lang: 'sp' | 'en'): string => {
+            const Translations = {
+                sp: `Has alcanzado el límite máximo de sucursales permitidas en tu plan actual. Tu plan actual te permite tener ${BranchLimit} sucursales.`,
+                en: `You have reached the branch limit. Your current plan allows you to have ${BranchLimit} branches.`
+            }
+            return Translations[Lang];
+        },
+        created:{
+            sp: "La sucursal ha sido registrada con éxito.",
+            en: "The branch was successfully created."
+        }
     }
 };

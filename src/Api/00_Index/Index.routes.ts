@@ -20,6 +20,7 @@ import Recovery from '../01_Users/0102_authorization/010202_recovery_token/recov
 import Users from '../01_Users/0101_index/users.routes';
 import Plans from '../01_Users/0103_subscription/010301_index/subscription.routes';
 import Principals from '../01_Users/0104_principals/010401_index/principals.routes';
+import Branches from '../02_Branches/0201_index/branches.routes';
 
 export default (app: Application, env: string): void => {
 
@@ -72,5 +73,13 @@ export default (app: Application, env: string): void => {
         aH(Language()),
         aH(CheckSession()),
         Principals
+    );
+
+    app.use(
+        BaseRoute(env, 'branches'),
+        celebrate({ params: LanguageParams }),
+        aH(Language()),
+        aH(CheckSession()),
+        Branches
     );
 }

@@ -143,6 +143,44 @@ export default {
                 en: 'Please, enter a correct numeric value for branch limit by plan.'
             }
         },
+        Branches: {
+            BranchId: {
+                sp: "Por favor, ingresa un id de sucursal correcto.",
+                en: "Please, enter a correct branch id."
+            },
+            PublicName: {
+                sp: "Por favor, ingresa un nombre público para la sucursal no mayor a 100 caracteres.",
+                en: "Please, enter a correct public branch name no longer than 100 characters."
+            },
+            Email: {
+                sp: "Por favor, ingresa un correo electrónico de sucursal válido.",
+                en: "Please, enter a valid branch email."
+            },
+            Address: {
+                sp: "Por favor, ingresa una dirección para la sucursal no mayor a 255 caracteres.",
+                en: "Please, enter a correct branch address no longer than 255 characters."
+            },
+            CityName: {
+                sp: "Por favor, ingresa un nombre de ciudad correcto no mayor a 100 caracteres.",
+                en: "Please, enter a correct city name no longer than 100 characters."
+            },
+            ZipCode: {
+                sp: "Por favor, ingresa un código postal válido no mayor a 10 caracteres.",
+                en: "Please, enter a valid zip code no longer than 10 characters."
+            },
+            StateId: {
+                sp: "Por favor, ingresa un id de estado correcto.",
+                en: "Please, enter a correct state id."
+            },
+            PrincipalId: {
+                sp: "Por favor, ingresa un id de director/principal correcto.",
+                en: "Please, enter a correct principal id."
+            },
+            PhoneNumber: {
+                sp: "Por favor, ingresa un número de teléfono de sucursal correcto no mayor a 20 caracteres.",
+                en: "Please, enter a correct branch phone number no longer than 20 characters."
+            }
+        },
         Users: {
             Name: {
                 sp: "Por favor, ingresa un nombre correcto.",

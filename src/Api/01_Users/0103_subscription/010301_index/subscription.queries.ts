@@ -14,11 +14,6 @@ export interface IBase {
     BranchLimit: ISubscriptionPlans['BranchLimit'];
 }
 
-export interface IPlanByPrincipal {
-    PrincipalId: IPrincipals['PrincipalId']
-    SubscriptionPlan: IBase
-}
-
 export interface IUpdate extends IBase {
     PlanId: ISubscriptionPlans['PlanId']
 }
@@ -67,7 +62,7 @@ class Queries extends Structures {
 
     public async GetPlanByPrincipal({
         PrincipalId
-    }: { PrincipalId: IPrincipals['PrincipalId'] }): Promise<IPlanByPrincipal> {
+    }: { PrincipalId: IPrincipals['PrincipalId'] }): Promise<ISubscriptionPlans> {
         const Plan: any = await Principals.findOne({
             where: {
                 PrincipalId,

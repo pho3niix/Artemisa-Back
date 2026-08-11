@@ -32,11 +32,11 @@ States.init(
         },
         Name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         Code: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         Active: {
             type: DataTypes.BOOLEAN,
