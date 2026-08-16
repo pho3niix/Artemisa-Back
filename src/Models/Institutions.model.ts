@@ -21,8 +21,8 @@ export interface IInstitutions {
 }
 
 class Institutions extends Model<InferAttributes<Institutions>, InferCreationAttributes<Institutions>>{
-    declare InstitutionId: string;
-    declare PublicName: string;
+    declare InstitutionId?: string;
+    declare PublicName?: string;
     declare Email?: string;
     declare LogoKey?: string;
     declare PhoneNumber?: string;
@@ -114,9 +114,9 @@ Branches.belongsTo(Institutions, {
     targetKey: 'InstitutionId'
 });
 
-States.belongsTo(Institutions, {
+Institutions.belongsTo(States, {
     foreignKey: 'StateId',
     targetKey: 'StateId'
-})
+});
 
 export default Institutions;

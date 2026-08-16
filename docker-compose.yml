@@ -5,8 +5,7 @@ services:
     image: node:24.13.0-alpine3.22
     build: .
     command: >
-      sh -c "npm run db:migrate
-      && npm run dev"
+      sh -c "npm run dev"
     ports:
       - "3000:3000"
     environment:

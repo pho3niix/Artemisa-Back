@@ -274,10 +274,38 @@ export default {
             }
         }
     },
+    Institutions: {
+        get: {
+            success: {
+                sp: "Instituciones por principal mostradas con éxito.",
+                en: "Institutions by principal displayed successfully."
+            },
+            notFound: {
+                sp: "El principal específico no existe.",
+                en: "The specific principal does not exists."
+            },
+            byId: {
+                notFound: {
+                    sp: "La institución específica no existe.",
+                    en: "The specific institution does not exists."
+                },
+                success: {
+                    sp: "Institución específica mostrada con éxito.",
+                    en: "The specific institution displayed successfully."
+                }
+            }
+        },
+        update: {
+            success: {
+                sp: "Institución actualizada con éxito.",
+                en: "Institution updated successfully."
+            }
+        }
+    },    
     Branches: {
         limit: (BranchLimit: number, Lang: 'sp' | 'en'): string => {
             const Translations = {
-                sp: `Has alcanzado el límite máximo de sucursales permitidas en tu plan actual. Tu plan actual te permite tener ${BranchLimit} sucursales.`,
+                sp: `Has alcanzado el límite máximo de sucursales permitidas. Tu plan actual te permite tener ${BranchLimit} sucursales.`,
                 en: `You have reached the branch limit. Your current plan allows you to have ${BranchLimit} branches.`
             }
             return Translations[Lang];

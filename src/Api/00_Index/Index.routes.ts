@@ -7,7 +7,7 @@ import { celebrate } from 'celebrate';
 import Language from '../../Middlewares/Language.mw';
 import { LanguageParams } from '../../Middlewares/Validations.mw';
 import { CheckSession } from '../../Middlewares/Session.mw';
-import { OnlyDevTeam } from '../../Middlewares/Permissions.mw';
+import { OnlyDevTeam, OwnUser } from '../../Middlewares/Permissions.mw';
 
 function BaseRoute(env: string, module: string): string {
     return `${env}/api/v1/:Lang/${module}`;
@@ -20,7 +20,6 @@ import Recovery from '../01_Users/0102_authorization/010202_recovery_token/recov
 import Users from '../01_Users/0101_index/users.routes';
 import Plans from '../01_Users/0103_subscription/010301_index/subscription.routes';
 import Principals from '../01_Users/0104_principals/010401_index/principals.routes';
-import Branches from '../02_Branches/0201_index/branches.routes';
 
 export default (app: Application, env: string): void => {
 
@@ -73,13 +72,5 @@ export default (app: Application, env: string): void => {
         aH(Language()),
         aH(CheckSession()),
         Principals
-    );
-
-    app.use(
-        BaseRoute(env, 'branches'),
-        celebrate({ params: LanguageParams }),
-        aH(Language()),
-        aH(CheckSession()),
-        Branches
     );
 }

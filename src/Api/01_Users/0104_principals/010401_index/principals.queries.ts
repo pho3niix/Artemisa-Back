@@ -1,16 +1,24 @@
 import Users, { IUsers } from '../../../../Models/Users.model';
 import Principals, { IPrincipals } from '../../../../Models/Principals.model';
+import Institutions, { IInstitutions } from '../../../../Models/Institutions.model';
+import Branches, { IBranches } from '../../../../Models/Branches.model';
 import SubscriptionPlans, { ISubscriptionPlans } from '../../../../Models/SubscriptionPlans.model';
 import Services, { IFilters, IPage } from '../../../../Services/Index.services';
 import { Op, literal } from 'sequelize';
+import States, { IStates } from '../../../../Models/States.model';
+
+interface ICreateBranch extends IInstitutions {
+    PrincipalId?: IPrincipals['PrincipalId'];
+    Institution?: Institutions;
+}
 
 interface IUserPrincipal {
-    PrincipalId: Principals['PrincipalId'];
+    PrincipalId?: Principals['PrincipalId'];
     User: IUsers
 }
 
 interface IDetail {
-    PrincipalId: Principals['PrincipalId'],
+    PrincipalId?: Principals['PrincipalId'],
     Name: IUsers['Name'],
     LastName: IUsers['LastName'],
     Email: IUsers['Email'],
@@ -58,6 +66,107 @@ class Queries extends Structures {
         })
 
         return this._Detail(Principal);
+    }
+
+    public async CreateBranch({
+        PublicName,
+        Email,
+        Address,
+        CityName,
+        ZipCode,
+        StateId,
+        PrincipalId,
+        PhoneNumber
+    }: ICreateBranch): Promise<IInstitutions> {
+        const Institution = await Institutions.create({
+            PublicName,
+            Email,
+            Address,
+            CityName,
+            StateId,
+            ZipCode,
+            PhoneNumber
+        });
+
+        const Branch = await Branches.create({
+            InstitutionId: Institution.InstitutionId,
+            PrincipalId
+        });
+
+        return Institution
+    }
+
+    public async GetCountBranchesByPrincipalId({ PrincipalId }: { PrincipalId: IPrincipals['PrincipalId'] }): Promise<number> {
+        return Branches.count({
+            where: {
+                PrincipalId
+            }
+        })
+    }
+
+    public async GetInstitutionsByPrincipalId({ PrincipalId }: { PrincipalId: IPrincipals['PrincipalId'] }): Promise<IInstitutions[]> {
+        const BranchesByPrincipalId = await Branches.findAll({
+            where: {
+                PrincipalId
+            },
+            attributes: ['InstitutionId']
+        });
+
+        const InstitutionIds = await Institutions.findAll({
+            where: {
+                InstitutionId: {
+                    [Op.in]: BranchesByPrincipalId.map((branch) => branch.InstitutionId)
+                }
+            },
+            attributes: ['InstitutionId', 'PublicName', 'Email', 'Address', 'CityName', 'ZipCode', 'PhoneNumber'],
+            include: {
+                model: States,
+                attributes: ['StateId', 'Name', 'Code']
+            }
+        });
+
+        return InstitutionIds;
+    }
+
+    public async UpdateInstitutionByPrincipal({
+        Institution,
+        PublicName,
+        Email,
+        Address,
+        CityName,
+        ZipCode,
+        StateId,
+        PhoneNumber
+    }: ICreateBranch): Promise<IInstitutions> {
+        return await Institution.update({
+            PublicName,
+            Email,
+            Address,
+            CityName,
+            ZipCode,
+            StateId,
+            PhoneNumber
+        });;
+    }
+
+    public async GetInstitutionByBranchId({ BranchId, PrincipalId }: { BranchId: Branches['InstitutionId'], PrincipalId: Principals['PrincipalId'] }): Promise<Institutions> {
+        const Branch = await Branches.findOne({
+            where: {
+                InstitutionId: BranchId,
+                PrincipalId
+            }
+        });
+
+        if(!Branch) return null;
+
+        const Institution = await Institutions.findOne({
+            where: {
+                InstitutionId: Branch.InstitutionId,
+                Active: true
+            }
+        })
+
+        return Institution ? Institution : null;
     }
 }
 

@@ -25,10 +25,6 @@ import Authorization from '../01_Users/0102_authorization/010201_index/auth.quer
 import Plans from '../01_Users/0103_subscription/010301_index/subscription.queries'
 import { ISubscriptionPlans } from '../../Models/SubscriptionPlans.model';
 
-/**@Branches */
-import Branches from '../02_Branches/0201_index/Branches.queries';
-import { IBranches } from '../../Models/Branches.model';
-
 export {
     /**@Users */
     Users,
@@ -55,9 +51,5 @@ export {
 
     /**@Principals */
     Principals,
-    IPrincipals,
-
-    /**@Branches */
-    Branches,
-    IBranches
+    IPrincipals
 }

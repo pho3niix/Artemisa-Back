@@ -9,12 +9,20 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "es6",
-    // "types": ["node", "mocha"],
-    "noImplicitAny": false,
     "moduleResolution": "node",
     "sourceMap": false,
     "outDir": "dist",
-    "baseUrl": "."
+    "baseUrl": ".",
+
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "noImplicitReturns": false,
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": [
     "./src/**/*",
