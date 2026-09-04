@@ -23,7 +23,7 @@ router.route('/:UserId/branches')
         aH(Controllers.CreateBranchByPrincipal)
     )
     .get(
-        aH(celebrate({ params: Validations.PrincipalParams })),
+        aH(celebrate({ params: Validations.PrincipalParams, query: Validations.FilterQuery })),
         aH(Controllers.GetInstitutionsByPrincipalId)
     )
 

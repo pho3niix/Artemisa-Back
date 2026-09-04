@@ -11,6 +11,10 @@ class Rules {
         BranchId: string;
     }
 
+    public FilterQuery: {
+        Search: string;
+    }
+
     public BranchBody: object;
 
     constructor() {
@@ -21,6 +25,10 @@ class Rules {
         this.PrincipalAndInstitutionParams = Validations.JoiObjectKeys({
             UserId: Validations.RequiredUUID("Principals PrincipalId"),
             BranchId: Validations.RequiredUUID("Branches BranchId")
+        })
+
+        this.FilterQuery = Validations.JoiObjectKeys({
+            Search: Validations.String("Filters Search")
         })
 
         this.BranchBody = Validations.JoiObjectKeys({

@@ -64,11 +64,15 @@ class Controllers {
             UserId
         } = req.params;
 
+        const {
+            Search
+        } = req.query;
+
         const Principal = await Principals.GetPrincipalById({ PrincipalId: UserId });
 
         if (!Principal) return next(new MyError(404, Messages.Users.getById.notFound[Lang]));
 
-        const Institutions = await Principals.GetInstitutionsByPrincipalId({ PrincipalId: UserId });
+        const Institutions = await Principals.GetInstitutionsByPrincipalId({ PrincipalId: UserId, Search: Search as string });
 
         return res.status(200).json({
             message: Messages.Institutions.get.success[Lang],

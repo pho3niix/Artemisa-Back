@@ -104,7 +104,7 @@ class Queries extends Structures {
         })
     }
 
-    public async GetInstitutionsByPrincipalId({ PrincipalId }: { PrincipalId: IPrincipals['PrincipalId'] }): Promise<IInstitutions[]> {
+    public async GetInstitutionsByPrincipalId({ PrincipalId, Search }: { PrincipalId: IPrincipals['PrincipalId'], Search?: string }): Promise<IInstitutions[]> {
         const BranchesByPrincipalId = await Branches.findAll({
             where: {
                 PrincipalId
@@ -112,7 +112,7 @@ class Queries extends Structures {
             attributes: ['InstitutionId']
         });
 
-        const InstitutionIds = await Institutions.findAll({
+        let Params: any = {
             where: {
                 InstitutionId: {
                     [Op.in]: BranchesByPrincipalId.map((branch) => branch.InstitutionId)
@@ -123,7 +123,23 @@ class Queries extends Structures {
                 model: States,
                 attributes: ['StateId', 'Name', 'Code']
             }
-        });
+        };
+
+        if (Search) {
+            Params.where = {
+                ...Params.where,
+                [Op.or]: [
+                    { PublicName: { [Op.iLike]: `%${Search}%` } },
+                    { Address: { [Op.iLike]: `%${Search}%` } },
+                    { PhoneNumber: { [Op.iLike]: `%${Search}%` } },
+                    { CityName: { [Op.iLike]: `%${Search}%` } },
+                    { ZipCode: { [Op.iLike]: `%${Search}%` } },
+                    { '$State.Name$': { [Op.iLike]: `%${Search}%` } }
+                ]
+            }
+        }
+
+        const InstitutionIds = await Institutions.findAll(Params);
 
         return InstitutionIds;
     }
@@ -157,7 +173,7 @@ class Queries extends Structures {
             }
         });
 
-        if(!Branch) return null;
+        if (!Branch) return null;
 
         const Institution = await Institutions.findOne({
             where: {
