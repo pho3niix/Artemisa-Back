@@ -300,8 +300,14 @@ export default {
                 sp: "Institución actualizada con éxito.",
                 en: "Institution updated successfully."
             }
+        },
+        delete: {
+            success: {
+                sp: "Institución eliminada con éxito.",
+                en: "Institution removed successfully."
+            }
         }
-    },    
+    },
     Branches: {
         limit: (BranchLimit: number, Lang: 'sp' | 'en'): string => {
             const Translations = {
@@ -310,7 +316,7 @@ export default {
             }
             return Translations[Lang];
         },
-        created:{
+        created: {
             sp: "La sucursal ha sido registrada con éxito.",
             en: "The branch was successfully created."
         }

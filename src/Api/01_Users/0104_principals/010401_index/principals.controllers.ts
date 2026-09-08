@@ -27,7 +27,7 @@ class Controllers {
         const Branch = await Principals.DeleteInstitutionByBranchId({ PrincipalId: UserId, BranchId });
 
         return res.status(200).json({
-            message: Messages.Institutions.update.success[Lang],
+            message: Messages.Institutions.delete.success[Lang],
             results: Institution
         })
     }
