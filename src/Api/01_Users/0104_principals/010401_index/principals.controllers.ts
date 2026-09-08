@@ -6,6 +6,32 @@ import Messages from '../../../00_Index/Index.messages';
 class Controllers {
     constructor() { }
 
+    public async DeleteInstitutionByBranchId(req: Request, res: Response, next: NextFunction): Promise<Response | any> {
+        const {
+            Lang
+        } = res.locals;
+
+        const {
+            UserId,
+            BranchId
+        } = req.params;
+
+        const Principal = await Principals.GetPrincipalById({ PrincipalId: UserId });
+
+        if (!Principal) return next(new MyError(404, Messages.Users.getById.notFound[Lang]));
+
+        const Institution = await Principals.GetInstitutionByBranchId({ BranchId, PrincipalId: UserId });
+
+        if (!Institution) return next(new MyError(404, Messages.Institutions.get.byId.notFound[Lang]));
+
+        const Branch = await Principals.DeleteInstitutionByBranchId({ PrincipalId: UserId, BranchId });
+
+        return res.status(200).json({
+            message: Messages.Institutions.update.success[Lang],
+            results: Institution
+        })
+    }
+
     public async UpdateInstitutionByPrincipal(req: Request, res: Response, next: NextFunction): Promise<Response | any> {
         const {
             Lang

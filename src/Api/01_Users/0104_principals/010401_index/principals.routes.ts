@@ -33,5 +33,9 @@ router.route('/:UserId/branches/:BranchId')
         aH(celebrate({ body: Validations.BranchBody })),
         aH(Controllers.UpdateInstitutionByPrincipal)
     )
+    .delete(
+        aH(celebrate({ params: Validations.PrincipalAndInstitutionParams })),
+        aH(Controllers.DeleteInstitutionByBranchId)
+    )
 
 export default router;

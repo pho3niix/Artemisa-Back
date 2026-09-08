@@ -17,6 +17,11 @@ interface IUserPrincipal {
     User: IUsers
 }
 
+interface IBranchDetail {
+    BranchId: Branches['InstitutionId']
+    PrincipalId?: Principals['PrincipalId']
+}
+
 interface IDetail {
     PrincipalId?: Principals['PrincipalId'],
     Name: IUsers['Name'],
@@ -165,7 +170,7 @@ class Queries extends Structures {
         });;
     }
 
-    public async GetInstitutionByBranchId({ BranchId, PrincipalId }: { BranchId: Branches['InstitutionId'], PrincipalId: Principals['PrincipalId'] }): Promise<Institutions> {
+    public async GetInstitutionByBranchId({ BranchId, PrincipalId }: IBranchDetail): Promise<Institutions> {
         const Branch = await Branches.findOne({
             where: {
                 InstitutionId: BranchId,
@@ -183,6 +188,15 @@ class Queries extends Structures {
         })
 
         return Institution ? Institution : null;
+    }
+
+    public async DeleteInstitutionByBranchId({ BranchId, PrincipalId }: IBranchDetail): Promise<number> {
+        return await Branches.destroy({
+            where: {
+                InstitutionId: BranchId,
+                PrincipalId
+            }
+        })
     }
 }
 
