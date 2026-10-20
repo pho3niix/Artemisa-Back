@@ -1,4 +1,4 @@
-import { Users, Sessions, ISessions } from '../../../00_Index/Index.models';
+import { Users, Sessions, ISessions, Plans } from '../../../00_Index/Index.models';
 import { Request, Response, NextFunction } from 'express';
 import { MyError } from '../../../00_Index/Index.middlewares';
 import Messages from '../../../00_Index/Index.messages';
@@ -29,6 +29,8 @@ class Controllers {
 
         if (!AuthServices.ComparePassword(Password, User.Password)) return next(new MyError(409, Messages.Auth.login.invalidCredentials[Lang]));
 
+        const SubscriptionPlan = await Plans.GetPlanByPrincipal({ PrincipalId: User.UserId });
+
         const Session = await Sessions.CreateSession({
             UserId: User.UserId,
             Expiration: 30
@@ -56,7 +58,12 @@ class Controllers {
             results: {
                 UserId: User.UserId,
                 Email: User.Email,
-                FullName: User.FullName
+                FullName: User.FullName,
+                Plan: {
+                    PlanId: SubscriptionPlan?.PlanId,
+                    Name: SubscriptionPlan?.Name,
+                    BranchLimit: SubscriptionPlan?.BranchLimit
+                }
             }
         })
     }
