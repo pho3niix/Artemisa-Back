@@ -9,6 +9,10 @@ export default class MyError extends Error {
         this.name = "CustomError";
         this.statusCode = code;
 
-        if (callstack) this.stack = callstack;
+        if (callstack !== undefined) {
+            this.stack = callstack;
+        } else {
+            this.stack = undefined;
+        }
     }
 }
