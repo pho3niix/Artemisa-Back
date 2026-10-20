@@ -9,6 +9,7 @@ export interface IMyError {
     status?: boolean,
     name?: string,
     message: string
+    stack?: any;
 }
 
 export const Logs = () => (req: Request, res: Response, next: NextFunction): void => {
@@ -47,9 +48,11 @@ export default () => (err: ICustomError, req: Request, res: Response, next: Next
                 });
             }
         default:
-            return res.status(err.statusCode).json({
+            let response: any = {
                 code: err.statusCode,
                 message: err.message
-            });
+            }
+            if (err.stack) response.stack = err.stack;
+            return res.status(err.statusCode).json(response);
     }
 }

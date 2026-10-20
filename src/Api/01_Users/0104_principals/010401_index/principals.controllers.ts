@@ -137,7 +137,10 @@ class Controllers {
 
         const BranchesByPlan = await Plans.GetPlanByPrincipal({ PrincipalId: UserId });
 
-        if (BranchesByPrincipalId >= BranchesByPlan.BranchLimit) return next(new MyError(402, Messages.Branches.limit(BranchesByPlan.BranchLimit, Lang)));
+        if (BranchesByPrincipalId >= BranchesByPlan.BranchLimit) return next(new MyError(402, Messages.Branches.limit(BranchesByPlan.BranchLimit, Lang), {
+            current: BranchesByPrincipalId,
+            limit: BranchesByPlan.BranchLimit
+        }));
 
         const Branch = await Principals.CreateBranch({
             PrincipalId: UserId,
